@@ -13,7 +13,10 @@ import { TaskSupabase } from "../../utils/ProjectTypes.ts";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDeleteAllWithRef } from "../../utils/UseQueryHookSupabase.ts";
+import {
+  useDeleteAllWithRef,
+  useEditTask,
+} from "../../utils/UseQueryHookSupabase.ts";
 import PopoverTaskEditor from "./PopoverTaskEditor.tsx";
 
 const SingleTaskComponent = ({ Task, State, TaskId }: TaskSupabase) => {
@@ -23,6 +26,7 @@ const SingleTaskComponent = ({ Task, State, TaskId }: TaskSupabase) => {
     mutate: deleteTask,
     error,
   } = useDeleteAllWithRef({ table: "Tasks of each Section" });
+  const { mutate: updateTask } = useEditTask();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: TaskId });
   const style = {
@@ -36,7 +40,10 @@ const SingleTaskComponent = ({ Task, State, TaskId }: TaskSupabase) => {
       eqColumn: "TaskId",
     });
   }
-
+  function handleChangeState() {
+    setTaskState(!taskState);
+    updateTask({ TaskId, Edit: !taskState });
+  }
   if (isError) {
     console.log(error);
   }
@@ -57,7 +64,9 @@ const SingleTaskComponent = ({ Task, State, TaskId }: TaskSupabase) => {
         alignItems={"center"}
       >
         <CardActionArea
-          onClick={() => setTaskState(!taskState)}
+          onClick={() => {
+            handleChangeState();
+          }}
           sx={{ py: 0.7 }}
         >
           <Stack spacing={1} direction={"row"} alignItems={"center"}>

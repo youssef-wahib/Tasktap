@@ -183,18 +183,33 @@ export function useDeleteAllWithRef({
   });
 }
 
-async function editTaskQueryFn(TaskId: string, textEdit: string) {
+async function editTaskQueryFn(
+  TaskId: string,
+  Edit: string | boolean,
+  upColumn: string,
+) {
   const { error } = await supabase
     .from("Tasks of each Section")
-    .update({ Task: textEdit })
+    .update({ [upColumn]: Edit })
     .eq("TaskId", TaskId);
   if (error) throw new Error(error.message);
 }
+
 export function useEditTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ TaskId, textEdit }: { TaskId: string; textEdit: string }) =>
-      editTaskQueryFn(TaskId, textEdit),
+    mutationFn: ({
+      TaskId,
+      Edit,
+    }: {
+      TaskId: string;
+      Edit: string | boolean;
+    }) => {
+      if (typeof Edit === "string")
+        return editTaskQueryFn(TaskId, Edit, "Task");
+      else return editTaskQueryFn(TaskId, Edit, "State");
+    },
+
     onSuccess: () =>
       queryClient
         .invalidateQueries(["Tasks of each Section"])

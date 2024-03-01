@@ -24,7 +24,7 @@ export default function PopoverTaskEditor({ TaskId }: { TaskId: string }) {
   };
 
   function handleSubmitEdit() {
-    updateTask({ TaskId, textEdit });
+    updateTask({ TaskId, Edit: textEdit });
     handleClose();
   }
   const open = Boolean(anchorEl);
