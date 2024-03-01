@@ -17,7 +17,10 @@ import {
 } from "@dnd-kit/core";
 
 import { useEffect, useState } from "react";
-import { useFetchTasksOfSection } from "../../utils/UseQueryHookSupabase.ts";
+import {
+  useFetchTasksOfSection,
+  useUpdateTAskOrder,
+} from "../../utils/UseQueryHookSupabase.ts";
 import PopoverEditor from "../reuseableComponents/PopoverEditor.tsx";
 import AddSingleTask from "./AddSingleTask.tsx";
 import DeleteSectionConfirmation from "./DeleteSectionConfirmation.tsx";
@@ -35,7 +38,8 @@ const ProjectSections = ({
   } = useFetchTasksOfSection(SectionId);
   const [taskList, setTaskList] = useState(SectionTasks as TaskSupabase[]);
   const [isAddNewTask, setIsAddNewTask] = useState(false);
-
+  const { mutate: updateTaskLocation, isSuccess: reordered } =
+    useUpdateTAskOrder();
   useEffect(() => {
     if (SectionTasks) {
       setTaskList(SectionTasks);
@@ -49,19 +53,18 @@ const ProjectSections = ({
     taskList.findIndex((taskList) => taskList.TaskId === id);
   const handleDragEnd = (event: { active: any; over: any }) => {
     const { active, over } = event;
-    if (active.id === over.id) {
-      return;
-    } else {
-      setTaskList((currentTasks) => {
-        return arrayMove(
-          currentTasks,
-          getPosition(active.id),
-          getPosition(over.id),
-        );
-      });
+    if (active.id !== over.id) {
+      const updatedTaskList = arrayMove(
+        taskList,
+        getPosition(active.id),
+        getPosition(over.id),
+      );
+      setTaskList(updatedTaskList);
+      updateTaskLocation(updatedTaskList);
     }
   };
-
+  console.log(reordered);
+  console.log(taskList);
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
       delay: 200,

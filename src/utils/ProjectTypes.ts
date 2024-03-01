@@ -16,4 +16,5 @@ export interface TaskSupabase {
   Task: string;
   State: boolean;
   SectionRef: string;
+  taskOrder: number;
 }

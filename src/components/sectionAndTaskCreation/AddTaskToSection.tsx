@@ -12,6 +12,7 @@ function AddTaskToSection({ getTaskFromUser, Index, SectionRef }: taskType) {
     TaskId: crypto.randomUUID(),
     State: false,
     SectionRef: SectionRef,
+    taskOrder: 0,
   });
   function handleSetTask(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

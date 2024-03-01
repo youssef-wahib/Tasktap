@@ -44,7 +44,8 @@ async function fetchTaskQueryFn(SectionRef: string) {
   const { data, error } = await supabase
     .from("Tasks of each Section")
     .select("*")
-    .eq("SectionRef", SectionRef);
+    .eq("SectionRef", SectionRef)
+    .order("taskOrder", { ascending: true });
   if (error) {
     throw new Error(error.message);
   }
@@ -250,5 +251,30 @@ export function useEditSection(selectionTable: string) {
       queryClient
         .invalidateQueries([selectionTable])
         .then(() => console.log("Edited successfully")),
+  });
+}
+async function updateTaskOrder(updatedTasks: TaskSupabase[]) {
+  const updates = updatedTasks.map((task, index) => {
+    return supabase
+      .from("Tasks of each Section")
+      .update({ taskOrder: index })
+      .eq("TaskId", task.TaskId);
+  });
+  await Promise.all(updates)
+    .then(() => {
+      console.log("Task order updated");
+    })
+    .catch((error) => {
+      console.error("Error updating task order:", error);
+    });
+}
+export function useUpdateTAskOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (updatedTasks: TaskSupabase[]) => updateTaskOrder(updatedTasks),
+    onSuccess: () =>
+      queryClient
+        .invalidateQueries("Tasks of each Section")
+        .then(() => console.log("reordered")),
   });
 }
