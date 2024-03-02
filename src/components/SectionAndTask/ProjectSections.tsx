@@ -38,8 +38,7 @@ const ProjectSections = ({
   } = useFetchTasksOfSection(SectionId);
   const [taskList, setTaskList] = useState(SectionTasks as TaskSupabase[]);
   const [isAddNewTask, setIsAddNewTask] = useState(false);
-  const { mutate: updateTaskLocation, isSuccess: reordered } =
-    useUpdateTAskOrder();
+  const { mutate: updateTaskLocation } = useUpdateTAskOrder();
   useEffect(() => {
     if (SectionTasks) {
       setTaskList(SectionTasks);
@@ -63,8 +62,7 @@ const ProjectSections = ({
       updateTaskLocation(updatedTaskList);
     }
   };
-  console.log(reordered);
-  console.log(taskList);
+
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
       delay: 200,
