@@ -38,6 +38,7 @@ export function useFetchSectionOfProject(projectId: string) {
   return useQuery<SectionTypeSupabase[], Error>(
     ["Sections of Projects", projectId],
     () => fetchSectionQueryFn(projectId),
+    { useErrorBoundary: true, suspense: true },
   );
 }
 async function fetchTaskQueryFn(SectionRef: string) {

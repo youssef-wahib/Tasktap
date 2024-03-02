@@ -8,13 +8,23 @@ import RootLayout from "./page/RootPage.tsx";
 import HomePage from "./page/HomePage.tsx";
 import UserProjectsPage from "./page/UserProjectsPage.tsx";
 import ProjectPage from "./page/ProjectPage.tsx";
+import { Suspense } from "react";
+import LoadingComponent from "./components/reuseableComponents/LoadingComponent.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={"/"} element={<RootLayout />}>
       <Route index element={<HomePage />} />
       <Route path={"/Projects"} element={<UserProjectsPage />} />
-      <Route path={":id"} element={<ProjectPage />} />
+
+      <Route
+        path={":id"}
+        element={
+          <Suspense fallback={<LoadingComponent />}>
+            <ProjectPage />
+          </Suspense>
+        }
+      />
     </Route>,
   ),
   // base root navigation
