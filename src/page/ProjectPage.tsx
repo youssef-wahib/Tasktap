@@ -11,7 +11,7 @@ function ProjectPage() {
   const { data: Sections } = useFetchSectionOfProject(ProjectId);
 
   return (
-    <Container sx={{ alignContent: "center" }}>
+    <Container sx={{ pt: "2%" }}>
       <CreateProjectSectionAndTasks projectId={ProjectId} />
       <Stack spacing={4} mt={5}>
         {Sections?.length ? (

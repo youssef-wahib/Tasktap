@@ -1,48 +1,117 @@
 import { createTheme } from "@mui/material/styles";
-
+const buttonColor = "rgba(95,158,160,0.60)";
+const buttonHoverColor = "rgba(95,158,160)";
+const primaryText = "rgba(255,255,255,0.95)";
+const secondaryText = "rgba(255,255,255,0.75)";
+const bgColor = "rgba(18,18,18)";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "rgba(255,143,0,0.82)", // Warm orange color
+      main: buttonHoverColor, // Warm orange color
     },
     secondary: {
-      main: "rgba(255,141,79,0.84)", // Light yellow color
+      main: buttonColor, // Light yellow color
     },
     background: {
-      default: "#F5F5F5", // Light gray background
+      default: bgColor, // Light gray background
     },
     text: {
-      primary: "#333333", // Dark text color
-      secondary: "#363535", // Lighter text color
+      primary: primaryText, // Dark text color
+      secondary: secondaryText, // Lighter text color
     },
   },
-  typography: {
-    fontFamily: "Roboto, Arial, sans-serif",
-    h1: {
-      color: "#423e39", // Warm orange for headings
-    },
-    h2: {
-      color: "#423e39",
-    },
-    h3: {
-      color: "#423e39",
-    },
-    h4: {
-      color: "#333333", // Dark text color for subheadings
-    },
-    h5: {
-      color: "#333333",
-    },
-    h6: {
-      color: "#333333",
-    },
-  },
+
   components: {
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: "rgb(255,224,198)", // White background for cards
-          color: "#333333", // Dark text color for card content
+          backgroundColor: "rgba(18,18,18,0.96)", // White background for cards
+          color: primaryText, // Dark text color for card content
+          borderColor: "rgba(255,255,255,0.2)",
+          borderRadius: "10px",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: buttonColor,
+          color: secondaryText,
+          "&:hover": {
+            backgroundColor: buttonHoverColor,
+          },
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20%",
+          backgroundColor: buttonColor,
+          color: secondaryText,
+          "&:hover": {
+            backgroundColor: buttonHoverColor,
+          },
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          width: "17.5%",
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: "17.5%",
+            boxSizing: "border-box",
+          },
+          backgroundColor: "rgb(37,36,36)",
+          color: secondaryText,
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "12px",
+          color: secondaryText,
+          "&:hover": {
+            backgroundColor: "rgba(48,52,52,0.66)",
+            borderRadius: "12px",
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          borderColor: "rgba(255,255,255,0.4)",
+          borderRadius: "10px",
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          backgroundColor: bgColor,
+          "&:hover": {
+            backgroundColor: buttonColor,
+          },
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          backgroundColor: bgColor,
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: bgColor,
         },
       },
     },

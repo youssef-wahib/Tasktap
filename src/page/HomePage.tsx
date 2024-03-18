@@ -2,7 +2,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia,
   Container,
   Stack,
   TextField,
@@ -11,7 +10,6 @@ import {
 
 import { useState } from "react";
 import SwitchAccessShortcutAddIcon from "@mui/icons-material/SwitchAccessShortcutAdd";
-import cardBG from "../assets/cardBG.png";
 
 import { usePostNewProject } from "../utils/UseQueryHookSupabase.ts";
 import { BaseProjectTypeSupabase } from "../utils/ProjectTypes.ts";
@@ -51,8 +49,8 @@ function HomePage() {
   if (isError) console.log(error);
 
   return (
-    <Card>
-      <CardMedia image={cardBG}>
+    <Container sx={{ pt: "5%" }}>
+      <Card variant={"outlined"}>
         <CardContent>
           <Typography
             color={"text.primary"}
@@ -69,8 +67,7 @@ function HomePage() {
         <Container sx={{ p: 3 }} maxWidth={"sm"}>
           <Stack direction={"column"} spacing={4}>
             <TextField
-              variant={"filled"}
-              sx={{ backgroundColor: "#ffffff" }}
+              variant={"outlined"}
               label={"Project Name"}
               required
               value={ProjectName}
@@ -80,9 +77,8 @@ function HomePage() {
               }}
             />
             <TextField
-              variant={"filled"}
+              variant={"outlined"}
               label={"Project Description"}
-              sx={{ backgroundColor: "#ffffff" }}
               value={ProjectDescription}
               onChange={(event) => setProjectDescription(event.target.value)}
             />
@@ -105,8 +101,8 @@ function HomePage() {
             ) : null}
           </Stack>
         </Container>
-      </CardMedia>
-    </Card>
+      </Card>
+    </Container>
   );
 }
 

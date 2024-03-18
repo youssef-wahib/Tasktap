@@ -14,7 +14,7 @@ function UserProjectsPage() {
 
   if (isSuccess) {
     return (
-      <Container maxWidth={false}>
+      <Container maxWidth={false} sx={{ pt: "2%" }}>
         <Typography align={"center"} variant={"h3"}>
           Select your Project
         </Typography>
