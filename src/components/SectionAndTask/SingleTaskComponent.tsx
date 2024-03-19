@@ -63,20 +63,19 @@ const SingleTaskComponent = ({ Task, State, TaskId }: TaskSupabase) => {
         m={0.5}
         alignItems={"center"}
       >
-        <CardActionArea
-          onClick={() => {
-            handleChangeState();
-          }}
-          sx={{ py: 0.7 }}
-        >
-          <Stack spacing={1} direction={"row"} alignItems={"center"}>
+        <CardActionArea onClick={handleChangeState} sx={{ py: 0.7 }}>
+          <Stack spacing={1} direction={"row"} alignItems={"center"} px={1}>
             {taskState ? <CheckCircleIcon /> : <CheckCircleOutlineIcon />}
-            <Typography variant={"h6"} pl={2}>
+            <Typography
+              variant={"h6"}
+              pl={2}
+              sx={{ textDecoration: !taskState ? "" : "line-through" }}
+            >
               {Task}
             </Typography>
           </Stack>
         </CardActionArea>
-        <PopoverTaskEditor TaskId={TaskId} />
+        <PopoverTaskEditor TaskId={TaskId} taskValue={Task} />
         <IconButton onClick={handleDeleteTask}>
           <DeleteIcon fontSize="medium" />
         </IconButton>

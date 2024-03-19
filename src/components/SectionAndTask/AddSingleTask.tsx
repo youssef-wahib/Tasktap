@@ -37,6 +37,12 @@ function AddSingleTask({
   return (
     <Stack direction={"row"} spacing={2} mb={2}>
       <TextField
+        autoFocus
+        onBlur={() => {
+          setTimeout(() => {
+            handleCloseAddSingleTask();
+          }, 100);
+        }}
         sx={{ width: "87%" }}
         type={"text"}
         label={"New Task"}

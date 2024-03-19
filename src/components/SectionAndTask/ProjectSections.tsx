@@ -21,9 +21,9 @@ import {
   useFetchTasksOfSection,
   useUpdateTAskOrder,
 } from "../../utils/UseQueryHookSupabase.ts";
-import PopoverEditor from "../reuseableComponents/PopoverEditor.tsx";
 import AddSingleTask from "./AddSingleTask.tsx";
 import DeleteSectionConfirmation from "./DeleteSectionConfirmation.tsx";
+import SectionNameAndDescriptionEditor from "./SectionNameAndDescriptionEditor.tsx";
 
 const ProjectSections = ({
   SectionTitle,
@@ -31,11 +31,7 @@ const ProjectSections = ({
   SectionCreatedAt,
   SectionDescription,
 }: SectionTypeSupabase) => {
-  const {
-    data: SectionTasks,
-
-    isSuccess,
-  } = useFetchTasksOfSection(SectionId);
+  const { data: SectionTasks, isSuccess } = useFetchTasksOfSection(SectionId);
   const [taskList, setTaskList] = useState(SectionTasks as TaskSupabase[]);
   const [isAddNewTask, setIsAddNewTask] = useState(false);
   const { mutate: updateTaskLocation } = useUpdateTAskOrder();
@@ -70,41 +66,18 @@ const ProjectSections = ({
     },
   });
   const sensors = useSensors(pointerSensor);
-  const SectionTime = new Date(SectionCreatedAt);
 
   if (isSuccess && taskList)
     return (
       <Container>
         <Card>
           <CardContent>
-            <Stack spacing={2} direction={"row"} justifyContent={"center"}>
-              <Typography variant={"h3"} align={"center"}>
-                {SectionTitle.toUpperCase()}
-              </Typography>
-              <PopoverEditor
-                Id={SectionId}
-                columnTitle={"SectionTitle"}
-                selectionTable={"Sections of Projects"}
-                eqColumn={"SectionId"}
-                labelText={"Edit Title"}
-              />
-            </Stack>
-            <Stack direction={"row"} alignItems={"center"} spacing={1} py={2}>
-              <Typography gutterBottom variant={"h4"}>
-                Description: {SectionDescription}
-              </Typography>
-              <PopoverEditor
-                Id={SectionId}
-                columnTitle={"SectionDescription"}
-                selectionTable={"Sections of Projects"}
-                eqColumn={"SectionId"}
-                labelText={"Edit Description"}
-              />
-            </Stack>
-            <Typography gutterBottom variant={"subtitle2"}>
-              Date: {SectionTime ? SectionTime.toUTCString() : ""}
-            </Typography>
-
+            <SectionNameAndDescriptionEditor
+              SectionTitle={SectionTitle}
+              SectionId={SectionId}
+              SectionCreatedAt={SectionCreatedAt}
+              SectionDescription={SectionDescription}
+            />
             <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
               <SortableContext
                 id={SectionId}

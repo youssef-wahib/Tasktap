@@ -1,69 +1,66 @@
-import { ChangeEvent, SetStateAction, useState } from "react";
-import { IconButton, Popover, TextField, Stack, Button } from "@mui/material";
+import { ChangeEvent, useState } from "react";
+import { IconButton, TextField, Stack, Button, Dialog } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SwitchAccessShortcutAddIcon from "@mui/icons-material/SwitchAccessShortcutAdd";
 import { useEditTask } from "../../utils/UseQueryHookSupabase.ts";
 
-export default function PopoverTaskEditor({ TaskId }: { TaskId: string }) {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [textEdit, setTextEdit] = useState("");
+export default function PopoverTaskEditor({
+  TaskId,
+  taskValue,
+}: {
+  TaskId: string;
+  taskValue: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [textEdit, setTextEdit] = useState(taskValue);
   const { mutate: updateTask } = useEditTask();
   function handleTextEdit(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     setTextEdit(event.target.value);
   }
-  const handleClick = (event: {
-    currentTarget: SetStateAction<HTMLButtonElement | null>;
-  }) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = () => {
+    setIsOpen(true);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setIsOpen(false);
   };
 
   function handleSubmitEdit() {
     updateTask({ TaskId, Edit: textEdit });
     handleClose();
   }
-  const open = Boolean(anchorEl);
 
   return (
     <>
       <IconButton onClick={handleClick}>
         <EditIcon fontSize="medium" />
       </IconButton>
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      >
+      <Dialog open={isOpen} onClose={handleClose} maxWidth={"md"} fullWidth>
         <Stack
-          alignContent={"center"}
-          direction={"column"}
-          sx={{ p: 2 }}
-          spacing={1}
+          justifyContent={"space-evenly"}
+          direction={"row"}
+          sx={{ p: 4 }}
+          spacing={2}
         >
           <TextField
-            label={"EditTask"}
-            multiline
-            variant={"standard"}
+            label={"Edit task"}
+            autoFocus
+            sx={{ width: "80%" }}
+            variant="outlined"
+            value={textEdit}
             onChange={(event) => handleTextEdit(event)}
           />
           <Button
-            size={"large"}
+            size={"medium"}
             endIcon={<SwitchAccessShortcutAddIcon />}
             onClick={handleSubmitEdit}
           >
             Save Edit
           </Button>
         </Stack>
-      </Popover>
+      </Dialog>
     </>
   );
 }

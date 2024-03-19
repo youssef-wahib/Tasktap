@@ -15,8 +15,7 @@ import { Link } from "react-router-dom";
 import { BaseProjectTypeSupabase } from "../../utils/ProjectTypes.ts";
 import { useFetchSectionOfProject } from "../../utils/UseQueryHookSupabase.ts";
 import DeleteProjectConfirmation from "./DeleteProjectConfirmation.tsx";
-import ProjectNameAndEditor from "../reuseableComponents/ProjectNameAndEditor.tsx";
-import ProjectDescriptionAndEditor from "../reuseableComponents/ProjectDescriptionAndEditor.tsx";
+import ProjectNameAndDescriptionEditor from "../reuseableComponents/ProjectNameAndDescriptionEditor.tsx";
 
 function ProjectCardDisplay({
   ProjectName,
@@ -31,22 +30,10 @@ function ProjectCardDisplay({
       <Container sx={{ width: "50rem" }}>
         <Card variant={"outlined"} elevation={0}>
           <CardContent>
-            <ProjectNameAndEditor
+            <ProjectNameAndDescriptionEditor
+              DescriptionName={ProjectDescription}
               ProjectName={ProjectName}
               Id={ProjectId}
-              columnTitle={"ProjectName"}
-              selectionTable={"Projects"}
-              eqColumn={"ProjectId"}
-              labelText={"Edit Title"}
-            />
-
-            <ProjectDescriptionAndEditor
-              DescriptionName={ProjectDescription}
-              Id={ProjectId}
-              columnTitle={"ProjectDescription"}
-              selectionTable={"Projects"}
-              eqColumn={"ProjectId"}
-              labelText={"Edit Description"}
             />
 
             {ProjectSection?.length ? (

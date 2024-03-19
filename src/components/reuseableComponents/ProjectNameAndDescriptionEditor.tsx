@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Button,
   TextField,
@@ -12,32 +11,37 @@ import {
 import { useEditSection } from "../../utils/UseQueryHookSupabase.ts";
 import { ChangeEvent, useState } from "react";
 
-export default function ProjectDescriptionAndEditor({
+export default function ProjectNameAndDescriptionEditor({
   Id,
-  columnTitle,
-  selectionTable,
-  eqColumn,
-  labelText,
+  ProjectName,
   DescriptionName,
 }: {
   Id: string;
-  columnTitle: string;
-  selectionTable: string;
-  eqColumn: string;
-  labelText: string;
+  ProjectName: string;
   DescriptionName: string | undefined;
 }) {
   const [open, setOpen] = useState(false);
-  const { mutate: updateSection } = useEditSection(selectionTable);
-  const [textEdit, setTextEdit] = useState(DescriptionName as string);
+  const { mutate: updateSection } = useEditSection("Projects");
+  const [textEdit, setTextEdit] = useState(ProjectName);
+  const { mutate: updateDescription } = useEditSection("Projects");
+  const [textEditDescription, setTextEditDescription] = useState(
+    DescriptionName as string,
+  );
 
   function handleSubmitEdit() {
     updateSection({
       Id,
       textEdit,
-      columnTitle,
-      selectionTable,
-      eqColumn,
+      columnTitle: "ProjectName",
+      selectionTable: "Projects",
+      eqColumn: "ProjectId",
+    });
+    updateDescription({
+      Id,
+      textEdit: textEditDescription,
+      columnTitle: "ProjectDescription",
+      selectionTable: "Projects",
+      eqColumn: "ProjectId",
     });
     handleClose();
   }
@@ -45,14 +49,28 @@ export default function ProjectDescriptionAndEditor({
     setOpen(false);
   };
   const handleOpen = () => setOpen(true);
-  function handleTextEdit(
+  function handleTextEditName(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     setTextEdit(event.target.value);
   }
 
+  function handleTextEditDescription(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
+    setTextEditDescription(event.target.value);
+  }
   return (
     <>
+      <Typography
+        variant={"h4"}
+        color={"text"}
+        align={"center"}
+        onClick={handleOpen}
+      >
+        {ProjectName}
+      </Typography>
+
       {!DescriptionName ? (
         <Typography
           variant={"h6"}
@@ -83,22 +101,8 @@ export default function ProjectDescriptionAndEditor({
         </>
       )}
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries((formData as any).entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
-        }}
-      >
-        <DialogTitle>{labelText}</DialogTitle>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Edit Project Name</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -107,7 +111,18 @@ export default function ProjectDescriptionAndEditor({
             fullWidth
             variant="outlined"
             value={textEdit}
-            onChange={(event) => handleTextEdit(event)}
+            onChange={(event) => handleTextEditName(event)}
+          />
+        </DialogContent>
+        <DialogTitle>Edit Description</DialogTitle>
+        <DialogContent>
+          <TextField
+            required
+            margin="dense"
+            fullWidth
+            variant="outlined"
+            value={textEditDescription}
+            onChange={(event) => handleTextEditDescription(event)}
           />
         </DialogContent>
         <DialogActions>
