@@ -48,7 +48,11 @@ export default function DeleteSectionConfirmation({
       >
         Delete Section
       </Button>
-      <Dialog open={open} keepMounted onClose={handleClose}>
+      <Dialog
+        open={open}
+        keepMounted
+        onClose={() => setTimeout(() => handleClose(), 5000)}
+      >
         <DialogTitle>
           Are you sure you want to delete this section and all related tasks?
         </DialogTitle>

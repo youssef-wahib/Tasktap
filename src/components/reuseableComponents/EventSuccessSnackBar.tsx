@@ -8,7 +8,7 @@ export default function CustomizedSnackbars({ message }: { message: string }) {
     setOpenMessage(false);
   }
   return (
-    <Snackbar open={openMessage} autoHideDuration={4000} onClose={handleClose}>
+    <Snackbar open={openMessage} autoHideDuration={5000} onClose={handleClose}>
       <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
         {message}
       </Alert>

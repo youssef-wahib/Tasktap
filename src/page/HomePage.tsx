@@ -8,11 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SwitchAccessShortcutAddIcon from "@mui/icons-material/SwitchAccessShortcutAdd";
 
 import { usePostNewProject } from "../utils/UseQueryHookSupabase.ts";
 import { BaseProjectTypeSupabase } from "../utils/ProjectTypes.ts";
+import CustomizedSnackbars from "../components/reuseableComponents/EventSuccessSnackBar.tsx";
 
 function HomePage() {
   const [empty, setEmpty] = useState(false);
@@ -39,13 +40,13 @@ function HomePage() {
       CreatedAt: new Date().toLocaleString(),
     } as BaseProjectTypeSupabase;
     ProjectName.length ? addNewProject(postData) : setEmpty(true);
-    console.log(isSuccess);
-    console.log(!ProjectName.length);
+  }
+
+  useEffect(() => {
     if (isSuccess === !!ProjectName.length) {
       handleClearState();
     }
-  }
-
+  }, [isSuccess]);
   if (isError) console.log(error);
 
   return (
@@ -98,6 +99,9 @@ function HomePage() {
               <Typography variant={"h6"} align={"center"}>
                 Please enter the project Name
               </Typography>
+            ) : null}
+            {isSuccess ? (
+              <CustomizedSnackbars message={"Project Created"} />
             ) : null}
           </Stack>
         </Container>

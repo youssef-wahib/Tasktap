@@ -17,7 +17,6 @@ import {
   usePostNewSection,
   usePostNewTaskSet,
 } from "../../utils/UseQueryHookSupabase.ts";
-import CustomizedSnackbars from "../reuseableComponents/EventSuccessSnackBar.tsx";
 
 // create an array of the tasks and submit the entire section to the current project
 function CreateProjectSectionAndTasks({ projectId }: { projectId: string }) {
@@ -153,9 +152,6 @@ function CreateProjectSectionAndTasks({ projectId }: { projectId: string }) {
             </Button>
           </Stack>
         </CardActions>
-        {isSuccess ? (
-          <CustomizedSnackbars message={"New Section Created"} />
-        ) : null}
       </Card>
     </Container>
   );

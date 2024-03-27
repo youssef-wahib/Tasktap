@@ -59,14 +59,18 @@ export default function DeleteProjectConfirmation({
       >
         Delete Project
       </Button>
-      <Dialog open={open} keepMounted onClose={handleClose}>
+      <Dialog
+        open={open}
+        keepMounted
+        onClose={() => setTimeout(() => handleClose(), 5000)}
+      >
         <DialogTitle>Are you sure you want to delete this Project?</DialogTitle>
         <DialogActions>
           <Button onClick={handleDeleteSectionAndTask}>yes</Button>
           <Button onClick={handleClose}>no</Button>
         </DialogActions>
       </Dialog>
-      {isSuccess ? <CustomizedSnackbars message={"Section Deleted"} /> : null}
+      {isSuccess ? <CustomizedSnackbars message={"Project Deleted"} /> : null}
     </>
   );
 }
