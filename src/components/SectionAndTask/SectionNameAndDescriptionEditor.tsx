@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import TextFieldEditor from "../reuseableComponents/TextFieldEditor.tsx";
+import TextFieldEditor from "../reusableComponents/TextFieldEditor.tsx";
 import { SectionTypeSupabase } from "../../utils/ProjectTypes.ts";
 import { useState } from "react";
 

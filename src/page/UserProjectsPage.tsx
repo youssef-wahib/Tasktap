@@ -1,16 +1,16 @@
 import { Container, Stack, Typography } from "@mui/material";
 
 import ProjectCardDisplay from "../components/ProjectSectionsAndDetails/ProjectCardDisplay.tsx";
-import { BaseProjectTypeSupabase } from "../utils/ProjectTypes.ts";
-import LoadingComponent from "../components/reuseableComponents/LoadingComponent.tsx";
-import { useFetchProjects } from "../utils/UseQueryHookSupabase.ts";
 
+import { useFetchProjects } from "../utils/useQuerySupabase.ts";
+
+import { useParams } from "react-router-dom";
+import { Database } from "../supabaseTypes.ts";
+type projectRow = Database["public"]["Tables"]["projects"]["Row"];
 function UserProjectsPage() {
-  const { data: Projects, isLoading, isSuccess } = useFetchProjects();
+  const { id } = useParams();
 
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
+  const { data: projects, isSuccess } = useFetchProjects(id as string);
 
   if (isSuccess) {
     return (
@@ -19,8 +19,8 @@ function UserProjectsPage() {
           Select your Project
         </Typography>
         <Stack spacing={3} direction="column" alignItems={"center"} mt={3}>
-          {Projects?.map((project: BaseProjectTypeSupabase) => {
-            return <ProjectCardDisplay key={project.ProjectId} {...project} />;
+          {projects?.map((project: projectRow) => {
+            return <ProjectCardDisplay key={project.id} {...project} />;
           })}
         </Stack>
       </Container>

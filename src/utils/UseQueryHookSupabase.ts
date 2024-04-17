@@ -7,10 +7,7 @@ import {
 } from "./ProjectTypes.ts";
 
 async function fetchProjectsQueryFn() {
-  const { data, error } = await supabase
-    .from("Projects")
-    .select("*")
-    .order("CreatedAt", { ascending: true });
+  const { data, error } = await supabase.from("projects").select("*");
   if (error) {
     throw new Error(error.message);
   }
@@ -18,16 +15,16 @@ async function fetchProjectsQueryFn() {
 }
 
 export function useFetchProjects() {
-  return useQuery<BaseProjectTypeSupabase[], Error>(["Projects"], () =>
+  return useQuery<BaseProjectTypeSupabase[], Error>(["projects"], () =>
     fetchProjectsQueryFn(),
   );
 }
 async function fetchSectionQueryFn(projectId: string) {
   const { data, error } = await supabase
-    .from("Sections of Projects")
+    .from("sections")
     .select("*")
     .eq("ProjectRef", projectId)
-    .order("SectionCreatedAt", { ascending: true });
+    .order("createdAt", { ascending: true });
   if (error) {
     throw new Error(error.message);
   }
@@ -36,14 +33,14 @@ async function fetchSectionQueryFn(projectId: string) {
 
 export function useFetchSectionOfProject(projectId: string) {
   return useQuery<SectionTypeSupabase[], Error>(
-    ["Sections of Projects", projectId],
+    ["sections", projectId],
     () => fetchSectionQueryFn(projectId),
     { useErrorBoundary: true, suspense: true },
   );
 }
 async function fetchTaskQueryFn(SectionRef: string) {
   const { data, error } = await supabase
-    .from("Tasks of each Section")
+    .from("tasks")
     .select("*")
     .eq("SectionRef", SectionRef)
     .order("taskOrder", { ascending: true });
@@ -55,14 +52,13 @@ async function fetchTaskQueryFn(SectionRef: string) {
 }
 
 export function useFetchTasksOfSection(SectionRef: string) {
-  return useQuery<TaskSupabase[], Error>(
-    ["Tasks of each Section", SectionRef],
-    () => fetchTaskQueryFn(SectionRef),
+  return useQuery<TaskSupabase[], Error>(["tasks", SectionRef], () =>
+    fetchTaskQueryFn(SectionRef),
   );
 }
 async function postNewProjectQueryFn(newProject: BaseProjectTypeSupabase) {
   const { data, error } = await supabase
-    .from("Projects")
+    .from("projects")
     .insert([newProject])
     .select();
   if (error) {
@@ -77,14 +73,14 @@ export function usePostNewProject() {
       postNewProjectQueryFn(newProject),
     onSuccess: () => {
       queryClient
-        .invalidateQueries(["Projects"])
+        .invalidateQueries(["projects"])
         .then(() => console.log("Projects query invalidated and refetched"));
     },
   });
 }
 async function postNewSectionQueryFn(newSection: SectionTypeSupabase) {
   const { data, error } = await supabase
-    .from("Sections of Projects")
+    .from("sections")
     .insert(newSection)
     .select();
   if (error) {
@@ -102,10 +98,7 @@ export function usePostNewSection(onSuccessCallback?: () => void) {
   });
 }
 async function postNewTaskSetQueryFn(newTask: TaskSupabase[]) {
-  const { data, error } = await supabase
-    .from("Tasks of each Section")
-    .insert(newTask)
-    .select();
+  const { data, error } = await supabase.from("tasks").insert(newTask).select();
   if (error) {
     throw new Error(error.message);
   }
@@ -118,10 +111,10 @@ export function usePostNewTaskSet() {
       postNewTaskSetQueryFn(newTaskSet),
     onSuccess: () => {
       queryClient
-        .invalidateQueries(["Sections of Projects"])
+        .invalidateQueries(["sections"])
         .then(() => console.log("Sections query invalidated and refetched"));
       queryClient
-        .invalidateQueries(["Tasks of each Section"])
+        .invalidateQueries(["tasks"])
         .then(() => console.log("Sections query invalidated and refetched"));
     },
   });
@@ -191,7 +184,7 @@ async function editTaskQueryFn(
   upColumn: string,
 ) {
   const { error } = await supabase
-    .from("Tasks of each Section")
+    .from("tasks")
     .update({ [upColumn]: Edit })
     .eq("TaskId", TaskId);
   if (error) throw new Error(error.message);
@@ -214,7 +207,7 @@ export function useEditTask() {
 
     onSuccess: () =>
       queryClient
-        .invalidateQueries(["Tasks of each Section"])
+        .invalidateQueries(["tasks"])
         .then(() => console.log("Edited successfully")),
   });
 }
@@ -257,7 +250,7 @@ export function useEditSection(selectionTable: string) {
 async function updateTaskOrder(updatedTasks: TaskSupabase[]) {
   const updates = updatedTasks.map((task, index) => {
     return supabase
-      .from("Tasks of each Section")
+      .from("tasks")
       .update({ taskOrder: index })
       .eq("TaskId", task.TaskId);
   });
@@ -275,7 +268,7 @@ export function useUpdateTAskOrder() {
     mutationFn: (updatedTasks: TaskSupabase[]) => updateTaskOrder(updatedTasks),
     onSuccess: () =>
       queryClient
-        .invalidateQueries("Tasks of each Section")
+        .invalidateQueries("tasks")
         .then(() => console.log("reordered")),
   });
 }

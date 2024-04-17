@@ -8,46 +8,34 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useEffect, useState } from "react";
 import SwitchAccessShortcutAddIcon from "@mui/icons-material/SwitchAccessShortcutAdd";
 
-import { usePostNewProject } from "../utils/UseQueryHookSupabase.ts";
-import { BaseProjectTypeSupabase } from "../utils/ProjectTypes.ts";
-import CustomizedSnackbars from "../components/reuseableComponents/EventSuccessSnackBar.tsx";
+import { usePostNewProject } from "../utils/useQuerySupabase.ts";
+import CustomizedSnackbars from "../components/reusableComponents/EventSuccessSnackBar.tsx";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Database } from "../supabaseTypes.ts";
+
+import { supabase } from "../utils/supabase.ts";
+
+type projectsType = Database["public"]["Tables"]["projects"];
 
 function HomePage() {
-  const [empty, setEmpty] = useState(false);
   const {
-    mutate: addNewProject,
-    isError,
-    isSuccess,
-    error,
-  } = usePostNewProject();
-  const [ProjectId, setProjectId] = useState(crypto.randomUUID());
-  const [ProjectName, setProjectName] = useState("");
-  const [ProjectDescription, setProjectDescription] = useState("");
-  function handleClearState() {
-    setProjectName("");
-    setProjectDescription("");
-    setProjectId(crypto.randomUUID());
-  }
-
-  function handlePosting() {
-    const postData = {
-      ProjectId,
-      ProjectDescription,
-      ProjectName,
-      CreatedAt: new Date().toLocaleString(),
-    } as BaseProjectTypeSupabase;
-    ProjectName.length ? addNewProject(postData) : setEmpty(true);
-  }
-
-  useEffect(() => {
-    if (isSuccess === !!ProjectName.length) {
-      handleClearState();
-    }
-  }, [isSuccess]);
-  if (isError) console.log(error);
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<projectsType["Insert"]>();
+  const { mutate: addNewProject, isLoading, isSuccess } = usePostNewProject();
+  const onSubmit: SubmitHandler<projectsType["Insert"]> = (data) => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      data.userId = session?.user.id;
+    });
+    data.id = crypto.randomUUID();
+    addNewProject(data);
+    console.log("submitted");
+    reset();
+  };
 
   return (
     <Container sx={{ pt: "5%" }}>
@@ -66,44 +54,41 @@ function HomePage() {
           </Typography>
         </CardContent>
         <Container sx={{ p: 3 }} maxWidth={"sm"}>
-          <Stack direction={"column"} spacing={4}>
-            <TextField
-              variant={"outlined"}
-              label={"Project Name"}
-              required
-              value={ProjectName}
-              onChange={(event) => {
-                setProjectName(event.target.value);
-                if (event.target.value.length) setEmpty(false);
-              }}
-            />
-            <TextField
-              variant={"outlined"}
-              label={"Project Description"}
-              value={ProjectDescription}
-              onChange={(event) => setProjectDescription(event.target.value)}
-            />
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete={"off"}>
+            <Stack direction={"column"} spacing={4}>
+              <TextField
+                variant={"outlined"}
+                label={"Project Name"}
+                {...register("name", {
+                  required: "Please enter a Project name",
+                })}
+              />
+              <TextField
+                variant={"outlined"}
+                label={"Project Description"}
+                {...register("description")}
+              />
 
-            <Button
-              disableElevation
-              color={"secondary"}
-              variant={"contained"}
-              onClick={() => handlePosting()}
-              startIcon={<SwitchAccessShortcutAddIcon />}
-              disabled={empty}
-            >
-              Add Project
-            </Button>
+              <Button
+                disableElevation
+                color={"secondary"}
+                variant={"contained"}
+                type={"submit"}
+                startIcon={<SwitchAccessShortcutAddIcon />}
+                disabled={isLoading}
+              >
+                Add Project
+              </Button>
 
-            {empty ? (
               <Typography variant={"h6"} align={"center"}>
-                Please enter the project Name
+                {errors.name?.message}
               </Typography>
-            ) : null}
-            {isSuccess ? (
-              <CustomizedSnackbars message={"Project Created"} />
-            ) : null}
-          </Stack>
+
+              {isSuccess ? (
+                <CustomizedSnackbars message={"Project Created"} />
+              ) : null}
+            </Stack>
+          </form>
         </Container>
       </Card>
     </Container>

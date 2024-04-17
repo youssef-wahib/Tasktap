@@ -1,43 +1,49 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import RootLayout from "./page/RootPage.tsx";
-import HomePage from "./page/HomePage.tsx";
-import UserProjectsPage from "./page/UserProjectsPage.tsx";
-import ProjectPage from "./page/ProjectPage.tsx";
-import { Suspense } from "react";
-import LoadingComponent from "./components/reuseableComponents/LoadingComponent.tsx";
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path={"/"} element={<RootLayout />}>
-      <Route index element={<HomePage />} />
-      <Route path={"/Projects"} element={<UserProjectsPage />} />
+const RootLayout = lazy(() => import("./page/RootPage"));
+const HomePage = lazy(() => import("./page/HomePage"));
+const UserProjectsPage = lazy(() => import("./page/UserProjectsPage"));
+const LoginPage = lazy(() => import("./page/LoginPage.tsx"));
+const ProjectPage = lazy(() => import("./page/ProjectPage"));
+const LoadingComponent = lazy(
+  () => import("./components/reusableComponents/LoadingComponent"),
+);
 
-      <Route
-        path={":id"}
-        element={
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <Suspense fallback={<LoadingComponent />}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: ":id",
+    element: (
+      <Suspense fallback={<LoadingComponent />}>
+        <RootLayout />
+      </Suspense>
+    ),
+
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "projects", element: <UserProjectsPage /> },
+      {
+        path: ":name",
+        element: (
           <Suspense fallback={<LoadingComponent />}>
             <ProjectPage />
           </Suspense>
-        }
-      />
-    </Route>,
-  ),
-  // base root navigation
-  // <Route path={"/"} element={<RootLayout />}>
-  //     {/*pages in root navigation*/}
-  //     <Route index element={<Home />} />
-  //     <Route path={"about"} element={} />
-  //
-  //
-  //     {/*error page */}
-  //     <Route path={"*"} element={} />
-  // </Route>,
-);
+        ),
+      },
+      // Add other routes and children as needed
+    ],
+  },
+  // Define errorElement, loader, and action if needed
+]);
+
 export default function App() {
   return <RouterProvider router={router} />;
 }

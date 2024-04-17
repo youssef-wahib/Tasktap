@@ -32,16 +32,16 @@ export default function ProjectNameAndDescriptionEditor({
     updateSection({
       Id,
       textEdit,
-      columnTitle: "ProjectName",
-      selectionTable: "Projects",
-      eqColumn: "ProjectId",
+      columnTitle: "name",
+      selectionTable: "projects",
+      eqColumn: "id",
     });
     updateDescription({
       Id,
       textEdit: textEditDescription,
-      columnTitle: "ProjectDescription",
-      selectionTable: "Projects",
-      eqColumn: "ProjectId",
+      columnTitle: "description",
+      selectionTable: "projects",
+      eqColumn: "id",
     });
     handleClose();
   }

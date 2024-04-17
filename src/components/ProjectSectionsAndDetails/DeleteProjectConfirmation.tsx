@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogTitle, Button } from "@mui/material";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteAllWithRef } from "../../utils/UseQueryHookSupabase.ts";
-import CustomizedSnackbars from "../reuseableComponents/EventSuccessSnackBar.tsx";
+import CustomizedSnackbars from "../reusableComponents/EventSuccessSnackBar.tsx";
 
 export default function DeleteProjectConfirmation({
   SectionId,

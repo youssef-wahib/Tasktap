@@ -1,13 +1,10 @@
 import { Card, CardContent, Container, Stack, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
 import ProjectSections from "../components/SectionAndTask/ProjectSections.tsx";
 import { SectionTypeSupabase } from "../utils/ProjectTypes.ts";
 import CreateProjectSectionAndTasks from "../components/sectionAndTaskCreation/CreateProjectSectionAndTasks.tsx";
 import { useFetchSectionOfProject } from "../utils/UseQueryHookSupabase.ts";
 
 function ProjectPage() {
-  const { id } = useParams();
-  const ProjectId = id as string;
   const { data: Sections } = useFetchSectionOfProject(ProjectId);
 
   return (
