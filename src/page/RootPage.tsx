@@ -12,7 +12,7 @@ export default function RootPage() {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        console.log(session);
+        // console.log(session);
 
         if (session) {
           setUser(session.user?.email?.split("@")[0]);

@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-import { useEditSection } from "../../utils/UseQueryHookSupabase.ts";
+import { useEdit } from "../../utils/useQuerySupabase.ts";
 import { ChangeEvent, useState } from "react";
 
 export default function ProjectNameAndDescriptionEditor({
@@ -18,12 +18,12 @@ export default function ProjectNameAndDescriptionEditor({
 }: {
   Id: string;
   ProjectName: string;
-  DescriptionName: string | undefined;
+  DescriptionName?: string | null;
 }) {
   const [open, setOpen] = useState(false);
-  const { mutate: updateSection } = useEditSection("Projects");
+  const { mutate: updateSection } = useEdit("projects");
   const [textEdit, setTextEdit] = useState(ProjectName);
-  const { mutate: updateDescription } = useEditSection("Projects");
+  const { mutate: updateDescription } = useEdit("projects");
   const [textEditDescription, setTextEditDescription] = useState(
     DescriptionName as string,
   );

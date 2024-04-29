@@ -1,39 +1,16 @@
 import { Dialog, DialogActions, DialogTitle, Button } from "@mui/material";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDeleteAllWithRef } from "../../utils/UseQueryHookSupabase.ts";
 import CustomizedSnackbars from "../reusableComponents/EventSuccessSnackBar.tsx";
+import { useDeleteProject } from "../../utils/useQuerySupabase.ts";
 
 export default function DeleteProjectConfirmation({
-  SectionId,
   ProjectId,
 }: {
-  SectionId: string[];
   ProjectId: string;
 }) {
   const [open, setOpen] = useState(false);
-  const { mutate: DeleteProject, isSuccess } = useDeleteAllWithRef({
-    table: "Projects",
-  });
-  const { mutate: DeleteAllSection } = useDeleteAllWithRef({
-    table: "Sections of Projects",
-    onSuccessCallback: () =>
-      DeleteProject({
-        ReferenceId: ProjectId,
-        table: "Projects",
-        eqColumn: "ProjectId",
-      }),
-  });
-
-  const { mutate: DeleteAllTasks } = useDeleteAllWithRef({
-    table: "Tasks of each Section",
-    onSuccessCallback: () =>
-      DeleteAllSection({
-        ReferenceId: ProjectId,
-        table: "Sections of Projects",
-        eqColumn: "ProjectRef",
-      }),
-  });
+  const { mutate, isSuccess } = useDeleteProject();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,12 +18,8 @@ export default function DeleteProjectConfirmation({
   const handleClose = () => {
     setOpen(false);
   };
-  function handleDeleteSectionAndTask() {
-    DeleteAllTasks({
-      ReferenceId: SectionId,
-      table: "Tasks of each Section",
-      eqColumn: "SectionRef",
-    });
+  function handleDelete() {
+    mutate(ProjectId);
   }
 
   return (
@@ -57,7 +30,7 @@ export default function DeleteProjectConfirmation({
         onClick={handleClickOpen}
         color={"error"}
       >
-        Delete Project
+        Delete
       </Button>
       <Dialog
         open={open}
@@ -66,7 +39,7 @@ export default function DeleteProjectConfirmation({
       >
         <DialogTitle>Are you sure you want to delete this Project?</DialogTitle>
         <DialogActions>
-          <Button onClick={handleDeleteSectionAndTask}>yes</Button>
+          <Button onClick={handleDelete}>yes</Button>
           <Button onClick={handleClose}>no</Button>
         </DialogActions>
       </Dialog>

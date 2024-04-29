@@ -28,10 +28,24 @@ const router = createBrowserRouter([
     ),
 
     children: [
-      { index: true, element: <HomePage /> },
-      { path: "projects", element: <UserProjectsPage /> },
       {
-        path: ":name",
+        index: true,
+        element: (
+          <Suspense fallback={<LoadingComponent />}>
+            <HomePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "projects",
+        element: (
+          <Suspense fallback={<LoadingComponent />}>
+            <UserProjectsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "projects/:id",
         element: (
           <Suspense fallback={<LoadingComponent />}>
             <ProjectPage />

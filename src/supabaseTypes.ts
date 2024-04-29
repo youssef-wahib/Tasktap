@@ -41,6 +41,7 @@ export type Database = {
       sections: {
         Row: {
           createdAt: string
+          deadline: string | null
           description: string | null
           id: string
           projectId: string
@@ -48,6 +49,7 @@ export type Database = {
         }
         Insert: {
           createdAt?: string
+          deadline?: string | null
           description?: string | null
           id?: string
           projectId?: string
@@ -55,6 +57,7 @@ export type Database = {
         }
         Update: {
           createdAt?: string
+          deadline?: string | null
           description?: string | null
           id?: string
           projectId?: string

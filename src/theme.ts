@@ -25,8 +25,8 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: "rgba(18,18,18,0.96)", // White background for cards
-          color: primaryText, // Dark text color for card content
+          backgroundColor: "rgba(18,18,18,0.96)",
+          color: primaryText,
           borderColor: "rgba(255,255,255,0.2)",
           borderRadius: "10px",
         },
