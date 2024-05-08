@@ -1,19 +1,28 @@
-import { Button, Divider, Drawer, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Divider,
+  Drawer,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Home, ListAltRounded } from "@mui/icons-material";
 import DrawerListItems from "../components/DrawerListItems";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase.ts";
+import ListIcon from "@mui/icons-material/List";
 export default function RootPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<string | undefined>("");
   const [userId, setUserId] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         // console.log(session);
-
         if (session) {
           setUser(session.user?.email?.split("@")[0]);
           setUserId(session.user.id);
@@ -29,13 +38,33 @@ export default function RootPage() {
     else navigate("/");
   }
   return (
-    <Stack direction={"row"} spacing={"20%"} sx={{ justifyContent: "center" }}>
-      <Drawer variant="permanent">
-        <Stack sx={{ overflow: "auto" }}>
+    <>
+      <Drawer
+        variant="persistent"
+        open={isDrawerOpen}
+        sx={{
+          display: "block",
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: "20%",
+            boxSizing: "border-box",
+          },
+        }}
+      >
+        <Stack sx={{ overflow: "auto" }} justifyContent={"center"}>
           {user ? (
-            <Typography align={"center"} pt={4} sx={{ flexWrap: "wrap" }}>
-              Welcome {user}
-            </Typography>
+            <Stack
+              pt={3}
+              direction={"row"}
+              alignItems={"center"}
+              flexWrap={"wrap"}
+              justifyContent={"space-evenly"}
+            >
+              <Typography>Welcome {user}</Typography>
+              <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+                <ArrowBackIcon fontSize={"small"} />
+              </IconButton>
+            </Stack>
           ) : null}
           <DrawerListItems
             Description={"New Project"}
@@ -51,8 +80,14 @@ export default function RootPage() {
         </Stack>
         <Button onClick={handleSignOut}>Logout</Button>
       </Drawer>
-
-      <Outlet />
-    </Stack>
+      <Container sx={{ pt: 3, ml: "20%", width: "auto" }}>
+        {isDrawerOpen ? null : (
+          <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+            <ListIcon />
+          </IconButton>
+        )}
+        <Outlet />
+      </Container>
+    </>
   );
 }

@@ -3,6 +3,8 @@ import { ChangeEvent, useState } from "react";
 import { TaskSupabase } from "../../utils/ProjectTypes.ts";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import { usePostNewTaskSet } from "../../utils/UseQueryHookSupabase.ts";
+import { Database } from "../../supabaseTypes.ts";
+type tasksType = Database["public"]["Tables"]["tasks"]["Row"];
 
 function AddSingleTask({
   SectionRef,
@@ -12,11 +14,11 @@ function AddSingleTask({
   handleCloseAddSingleTask: () => void;
 }) {
   const [newTaskText, setNewTaskText] = useState({
-    Task: "",
-    TaskId: crypto.randomUUID(),
-    State: false,
-    SectionRef: SectionRef,
-  } as TaskSupabase);
+    title: "",
+    id: crypto.randomUUID(),
+    completed: false,
+    sectionId: SectionRef,
+  } as tasksType);
 
   const { mutate: addTask } = usePostNewTaskSet();
 

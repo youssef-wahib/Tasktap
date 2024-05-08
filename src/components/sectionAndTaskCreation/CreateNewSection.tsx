@@ -3,7 +3,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Container,
   Stack,
   TextField,
   Typography,
@@ -31,8 +30,8 @@ function CreateNewSection({ projectId }: { projectId: string }) {
   };
 
   return (
-    <Container maxWidth="md">
-      <Accordion>
+    <>
+      <Accordion sx={{ background: "transparent" }} elevation={0}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color={"secondary"} />}
           color={"secondary"}
@@ -60,6 +59,12 @@ function CreateNewSection({ projectId }: { projectId: string }) {
                 {...register("description")}
               />
               <TextField
+                sx={{
+                  '& input[type="date"]::-webkit-calendar-picker-indicator': {
+                    filter: "invert(1) brightness(1.5)",
+                    cursor: "pointer",
+                  },
+                }}
                 variant="outlined"
                 type={"date"}
                 {...register("deadline")}
@@ -69,7 +74,7 @@ function CreateNewSection({ projectId }: { projectId: string }) {
           </form>
         </AccordionDetails>
       </Accordion>
-    </Container>
+    </>
   );
 }
 

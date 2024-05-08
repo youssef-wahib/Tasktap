@@ -1,17 +1,17 @@
 import { Stack, Typography } from "@mui/material";
 import TextFieldEditor from "../reusableComponents/TextFieldEditor.tsx";
-import { SectionTypeSupabase } from "../../utils/ProjectTypes.ts";
 import { useState } from "react";
-
+import { Database } from "../../supabaseTypes.ts";
+type sectionsType = Database["public"]["Tables"]["sections"]["Row"];
 function SectionNameAndDescriptionEditor({
-  SectionTitle,
-  SectionId,
-  SectionDescription,
-  SectionCreatedAt,
-}: SectionTypeSupabase) {
-  const SectionTime = new Date(SectionCreatedAt);
+  title,
+  id,
+  description,
+  deadline,
+}: sectionsType) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [isEditingDeadline, setIsEditingDeadline] = useState(false);
   function handleOpenEditingTitle() {
     setIsEditingTitle(true);
   }
@@ -24,56 +24,74 @@ function SectionNameAndDescriptionEditor({
   function handleCloseEditingDescription() {
     setIsEditingDescription(false);
   }
+  function handleOpenEditingDeadline() {
+    setIsEditingDeadline(true);
+  }
+  function handleCloseEditingDeadline() {
+    setIsEditingDeadline(false);
+  }
   return (
     <>
-      <Stack spacing={2} direction={"row"} justifyContent={"center"}>
-        {isEditingTitle ? (
-          <TextFieldEditor
-            editValue={SectionTitle}
-            closeEdit={handleCloseEditingTitle}
-            Id={SectionId}
-            columnTitle={"SectionTitle"}
-            selectionTable={"Sections of Projects"}
-            eqColumn={"SectionId"}
-            labelText={"Edit Title"}
-          />
-        ) : (
-          <Typography
-            variant={"h3"}
-            align={"center"}
-            onClick={handleOpenEditingTitle}
-          >
-            {SectionTitle.toUpperCase()}
-          </Typography>
-        )}
-      </Stack>
+      {isEditingTitle ? (
+        <TextFieldEditor
+          editValue={title as string}
+          closeEdit={handleCloseEditingTitle}
+          Id={id}
+          columnTitle={"title"}
+          selectionTable={"sections"}
+          eqColumn={"id"}
+          labelText={"Edit Title"}
+        />
+      ) : (
+        <Typography
+          pb={4}
+          variant={"h4"}
+          align={"center"}
+          onClick={handleOpenEditingTitle}
+        >
+          {title?.toUpperCase()}
+        </Typography>
+      )}
+
       <Stack direction={"column"} pb={2} spacing={2}>
-        <Typography variant={"h4"} onClick={handleOpenEditingDescription}>
+        <Typography variant={"h5"} onClick={handleOpenEditingDescription}>
           Description:
         </Typography>
         {isEditingDescription ? (
           <TextFieldEditor
-            editValue={SectionDescription}
+            editValue={description as string}
             closeEdit={handleCloseEditingDescription}
-            Id={SectionId}
-            columnTitle={"SectionDescription"}
-            selectionTable={"Sections of Projects"}
-            eqColumn={"SectionId"}
+            Id={id}
+            columnTitle={"description"}
+            selectionTable={"sections"}
+            eqColumn={"id"}
             labelText={"Edit Description"}
           />
         ) : (
           <Typography
             pl={3}
-            variant={"h5"}
+            variant={"h6"}
             onClick={handleOpenEditingDescription}
           >
-            {SectionDescription}
+            {description}
+          </Typography>
+        )}
+        {isEditingDeadline ? (
+          <TextFieldEditor
+            editValue={deadline as string}
+            closeEdit={handleCloseEditingDeadline}
+            Id={id}
+            columnTitle={"deadline"}
+            selectionTable={"sections"}
+            eqColumn={"id"}
+            labelText={"Edit Deadline"}
+          />
+        ) : (
+          <Typography onClick={handleOpenEditingDeadline}>
+            {deadline ? deadline : "Add deadline"}
           </Typography>
         )}
       </Stack>
-      <Typography gutterBottom variant={"h6"} color={"rgba(255,255,255,0.75)"}>
-        Date: {SectionTime ? SectionTime.toUTCString() : ""}
-      </Typography>
     </>
   );
 }

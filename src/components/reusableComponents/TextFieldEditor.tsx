@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
-import { TextField, Stack } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 
-import { useEditSection } from "../../utils/UseQueryHookSupabase.ts";
+import { useEdit } from "../../utils/useQuerySupabase.ts";
 export default function TextFieldEditor({
   Id,
   columnTitle,
@@ -20,7 +20,7 @@ export default function TextFieldEditor({
   editValue: string;
 }) {
   const [textEdit, setTextEdit] = useState(editValue);
-  const { mutate: updateSection } = useEditSection(selectionTable);
+  const { mutate: updateSection } = useEdit(selectionTable);
   function handleTextEdit(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
@@ -39,15 +39,15 @@ export default function TextFieldEditor({
 
   return (
     <>
-      <Stack
-        alignContent={"center"}
-        justifyContent={"center"}
-        direction={"row"}
-        sx={{ p: 2, width: "60%" }}
-        spacing={1}
-      >
+      <Box sx={{ p: 2 }}>
         <TextField
-          sx={{ width: "80%" }}
+          type={columnTitle === "deadline" ? "date" : "text"}
+          sx={{
+            '& input[type="date"]::-webkit-calendar-picker-indicator': {
+              filter: "invert(1) brightness(1.5)",
+              cursor: "pointer",
+            },
+          }}
           onBlur={() => {
             if (textEdit === editValue) closeEdit();
             else {
@@ -55,14 +55,14 @@ export default function TextFieldEditor({
               closeEdit();
             }
           }}
-          multiline
+          fullWidth
           autoFocus
           label={labelText}
           value={textEdit}
           variant={"outlined"}
           onChange={(event) => handleTextEdit(event)}
         />
-      </Stack>
+      </Box>
     </>
   );
 }

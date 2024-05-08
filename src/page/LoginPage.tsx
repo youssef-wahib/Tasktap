@@ -41,7 +41,6 @@ function LoginPage() {
           <Typography variant={"h3"} align={"center"}>
             LOGIN
           </Typography>
-
           <SignIn />
           <Divider sx={{ borderColor: "rgba(255,255,255,0.4)" }} />
           <Typography variant={"h4"} align={"center"}>

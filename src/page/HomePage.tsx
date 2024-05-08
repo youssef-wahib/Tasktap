@@ -38,7 +38,7 @@ function HomePage() {
   };
 
   return (
-    <Container sx={{ pt: "5%" }}>
+    <Container sx={{ pt: "2%" }}>
       <Card variant={"outlined"}>
         <CardContent>
           <Typography
