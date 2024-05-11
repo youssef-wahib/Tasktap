@@ -3,13 +3,14 @@ import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CustomizedSnackbars from "./EventSuccessSnackBar.tsx";
 import { useDelete } from "../../utils/useQuerySupabase.ts";
+import { Database } from "../../supabaseTypes.ts";
 
 export default function DeleteConfirmation({
   Id,
   table,
 }: {
   Id: string;
-  table: string;
+  table: keyof Database["public"]["Tables"];
 }) {
   const [open, setOpen] = useState(false);
   const { mutate, isSuccess } = useDelete(table);

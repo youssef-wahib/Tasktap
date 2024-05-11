@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { TextField, Box } from "@mui/material";
 
 import { useEdit } from "../../utils/useQuerySupabase.ts";
+import { Database } from "../../supabaseTypes.ts";
 export default function TextFieldEditor({
   Id,
   columnTitle,
@@ -13,7 +14,7 @@ export default function TextFieldEditor({
 }: {
   Id: string;
   columnTitle: string;
-  selectionTable: string;
+  selectionTable: keyof Database["public"]["Tables"];
   eqColumn: string;
   labelText: string;
   closeEdit: () => void;

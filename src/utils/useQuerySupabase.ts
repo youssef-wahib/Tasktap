@@ -5,6 +5,7 @@ import { Database } from "../supabaseTypes.ts";
 type projectsType = Database["public"]["Tables"]["projects"];
 type sectionsType = Database["public"]["Tables"]["sections"];
 type tasksType = Database["public"]["Tables"]["tasks"];
+type tableName = keyof Database["public"]["Tables"];
 
 export function usePostNewProject() {
   const queryClient = useQueryClient();
@@ -62,7 +63,7 @@ export function useFetchProjects(userId: string) {
     onError: (err) => console.log(err),
   });
 }
-export function useDelete(tableName: string) {
+export function useDelete(tableName: tableName) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) =>
@@ -77,7 +78,7 @@ export function useDelete(tableName: string) {
   });
 }
 
-export function useEdit(selectionTable: string) {
+export function useEdit(selectionTable: tableName) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -90,7 +91,7 @@ export function useEdit(selectionTable: string) {
       Id: string;
       textEdit: string;
       columnTitle: string;
-      selectionTable: string;
+      selectionTable: tableName;
       eqColumn: string;
     }) =>
       await supabase
@@ -158,18 +159,7 @@ export function useEditTask() {
         .then(() => console.log("Edited successfully")),
   });
 }
-// async function updateTaskOrder(updatedTasks: tasksType["Row"][]) {
-//   const updates = updatedTasks.map((task, index) => {
-//     return supabase.from("tasks").update({ order: index }).eq("id", task.id);
-//   });
-//   await Promise.all(updates)
-//     .then(() => {
-//       console.log("Task order updated");
-//     })
-//     .catch((error) => {
-//       console.error("Error updating task order:", error);
-//     });
-// }
+
 export function useUpdateTaskOrder() {
   const queryClient = useQueryClient();
   return useMutation({
