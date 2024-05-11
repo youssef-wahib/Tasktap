@@ -36,6 +36,5 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
-  },
-  "packageManager": "yarn@4.1.0"
+  }
 }
