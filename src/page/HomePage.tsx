@@ -65,6 +65,7 @@ function HomePage() {
               />
               <TextField
                 variant={"outlined"}
+                multiline
                 label={"Project Description"}
                 {...register("description")}
               />
