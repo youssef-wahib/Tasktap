@@ -34,6 +34,20 @@ export function usePostNewSection() {
     mutationKey: ["sections"],
   });
 }
+export function usePostNewTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newTask: tasksType["Insert"]) =>
+      await supabase.from("tasks").insert([newTask]),
+    onSuccess: () => {
+      queryClient
+        .invalidateQueries(["tasks"])
+        .then(() => console.log("Tasks query invalidated and refetched"));
+    },
+    onError: (error) => console.log(error),
+    mutationKey: ["tasks"],
+  });
+}
 
 export function useFetchProjects(userId: string) {
   return useQuery({
@@ -48,18 +62,18 @@ export function useFetchProjects(userId: string) {
     onError: (err) => console.log(err),
   });
 }
-export function useDeleteProject() {
+export function useDelete(tableName: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) =>
-      await supabase.from("projects").delete().eq("id", id),
-    queryKey: ["projects"],
+      await supabase.from(tableName).delete().eq("id", id),
     onSuccess: () => {
       queryClient
-        .invalidateQueries(["projects"])
+        .invalidateQueries([tableName])
         .then(() => console.log("Projects query invalidated and refetched"));
     },
     onError: (err) => console.log(err),
+    mutationKey: [tableName],
   });
 }
 
@@ -101,5 +115,75 @@ export function useFetchSections(projectId: string) {
     },
     queryKey: ["sections", projectId],
     onError: (err) => console.log(err),
+  });
+}
+export function useFetchTasks(sectionId: string) {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq("sectionId", sectionId)
+        .order("order");
+      return data;
+    },
+    queryKey: ["tasks", sectionId],
+    onError: (err) => console.log(err),
+  });
+}
+
+async function editTaskQueryFn(
+  id: string,
+  edit: string | boolean,
+  upColumn: string,
+) {
+  const { error } = await supabase
+    .from("tasks")
+    .update({ [upColumn]: edit })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export function useEditTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, edit }: { id: string; edit: string | boolean }) => {
+      if (typeof edit === "string") return editTaskQueryFn(id, edit, "title");
+      else return editTaskQueryFn(id, edit, "completed");
+    },
+    mutationKey: ["tasks", editTaskQueryFn],
+    onSuccess: () =>
+      queryClient
+        .invalidateQueries(["tasks"])
+        .then(() => console.log("Edited successfully")),
+  });
+}
+// async function updateTaskOrder(updatedTasks: tasksType["Row"][]) {
+//   const updates = updatedTasks.map((task, index) => {
+//     return supabase.from("tasks").update({ order: index }).eq("id", task.id);
+//   });
+//   await Promise.all(updates)
+//     .then(() => {
+//       console.log("Task order updated");
+//     })
+//     .catch((error) => {
+//       console.error("Error updating task order:", error);
+//     });
+// }
+export function useUpdateTaskOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (updatedTasks: tasksType["Row"][]) =>
+      await supabase
+        .from("tasks")
+        .upsert(updatedTasks.map((task, index) => ({ ...task, order: index }))),
+    onSuccess: () =>
+      queryClient
+        .invalidateQueries("tasks")
+        .then(() => console.log("reordered")),
+    mutationKey: ["tasks"],
+    onError: (error) => {
+      console.error("Error updating task order:", error);
+    },
   });
 }

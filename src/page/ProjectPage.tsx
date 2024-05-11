@@ -4,7 +4,7 @@ import { useFetchSections } from "../utils/useQuerySupabase.ts";
 import { useParams } from "react-router-dom";
 import { Database } from "../supabaseTypes.ts";
 import CreateNewSection from "../components/sectionAndTaskCreation/CreateNewSection.tsx";
-import ProjectSectionsAndTasks from "../components/SectionAndTask/ProjectSectionsAndTasks.tsx";
+import ProjectSectionsAndTasks from "../components/ProjectSectionsAndDetails/ProjectSectionsAndTasks.tsx";
 type sectionsType = Database["public"]["Tables"]["sections"]["Row"];
 function ProjectPage() {
   const { id } = useParams();
@@ -13,6 +13,7 @@ function ProjectPage() {
 
   return (
     <Container sx={{ pt: "1%" }}>
+      <CreateNewSection projectId={id as string} />
       <Stack spacing={4}>
         {Sections?.length ? (
           Sections?.map((section: sectionsType) => (
@@ -28,7 +29,6 @@ function ProjectPage() {
           </Card>
         )}
       </Stack>
-      <CreateNewSection projectId={id as string} />
     </Container>
   );
 }

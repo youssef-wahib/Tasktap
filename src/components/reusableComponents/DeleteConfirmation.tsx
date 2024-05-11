@@ -1,16 +1,18 @@
 import { Dialog, DialogActions, DialogTitle, Button } from "@mui/material";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CustomizedSnackbars from "../reusableComponents/EventSuccessSnackBar.tsx";
-import { useDeleteProject } from "../../utils/useQuerySupabase.ts";
+import CustomizedSnackbars from "./EventSuccessSnackBar.tsx";
+import { useDelete } from "../../utils/useQuerySupabase.ts";
 
-export default function DeleteProjectConfirmation({
-  ProjectId,
+export default function DeleteConfirmation({
+  Id,
+  table,
 }: {
-  ProjectId: string;
+  Id: string;
+  table: string;
 }) {
   const [open, setOpen] = useState(false);
-  const { mutate, isSuccess } = useDeleteProject();
+  const { mutate, isSuccess } = useDelete(table);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,9 +21,9 @@ export default function DeleteProjectConfirmation({
     setOpen(false);
   };
   function handleDelete() {
-    mutate(ProjectId);
+    mutate(Id);
   }
-
+  const name = table === "projects" ? "project" : "section";
   return (
     <>
       <Button
@@ -30,20 +32,20 @@ export default function DeleteProjectConfirmation({
         onClick={handleClickOpen}
         color={"error"}
       >
-        Delete
+        Delete {name}
       </Button>
       <Dialog
         open={open}
         keepMounted
         onClose={() => setTimeout(() => handleClose(), 5000)}
       >
-        <DialogTitle>Are you sure you want to delete this Project?</DialogTitle>
+        <DialogTitle>Are you sure you want to delete this {name}</DialogTitle>
         <DialogActions>
           <Button onClick={handleDelete}>yes</Button>
           <Button onClick={handleClose}>no</Button>
         </DialogActions>
       </Dialog>
-      {isSuccess ? <CustomizedSnackbars message={"Project Deleted"} /> : null}
+      {isSuccess ? <CustomizedSnackbars message={`${name} Deleted`} /> : null}
     </>
   );
 }

@@ -31,7 +31,18 @@ function CreateNewSection({ projectId }: { projectId: string }) {
 
   return (
     <>
-      <Accordion sx={{ background: "transparent" }} elevation={0}>
+      <Accordion
+        sx={{
+          background: "transparent",
+          fontSize: "2em",
+          pb: 2,
+          color: "rgba(95,158,160,0.75)",
+          "&:hover": {
+            color: "rgba(95,158,160)",
+          },
+        }}
+        elevation={0}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color={"secondary"} />}
           color={"secondary"}

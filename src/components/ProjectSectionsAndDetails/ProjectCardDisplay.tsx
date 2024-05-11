@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Link } from "react-router-dom";
-import DeleteProjectConfirmation from "./DeleteProjectConfirmation.tsx";
+import DeleteConfirmation from "../reusableComponents/DeleteConfirmation.tsx";
 import ProjectNameAndDescriptionEditor from "../reusableComponents/ProjectNameAndDescriptionEditor.tsx";
 import { Database } from "../../supabaseTypes.ts";
 import { useFetchSections } from "../../utils/useQuerySupabase.ts";
@@ -49,7 +49,7 @@ function ProjectCardDisplay({ name, description, id }: projectRow) {
           <Link to={`${id}`}>
             <Button variant={"text"}>Details</Button>
           </Link>
-          <DeleteProjectConfirmation ProjectId={id} />
+          <DeleteConfirmation Id={id} table={"projects"} />
         </CardActions>
       </Card>
     </Container>

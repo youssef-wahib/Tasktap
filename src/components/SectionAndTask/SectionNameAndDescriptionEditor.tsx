@@ -44,7 +44,7 @@ function SectionNameAndDescriptionEditor({
         />
       ) : (
         <Typography
-          pb={4}
+          pb={2}
           variant={"h4"}
           align={"center"}
           onClick={handleOpenEditingTitle}
@@ -53,7 +53,7 @@ function SectionNameAndDescriptionEditor({
         </Typography>
       )}
 
-      <Stack direction={"column"} pb={2} spacing={2}>
+      <Stack direction={"column"} spacing={1}>
         <Typography variant={"h5"} onClick={handleOpenEditingDescription}>
           Description:
         </Typography>
