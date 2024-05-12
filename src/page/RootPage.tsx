@@ -80,7 +80,9 @@ export default function RootPage() {
         </Stack>
         <Button onClick={handleSignOut}>Logout</Button>
       </Drawer>
-      <Container sx={{ pt: 3, ml: "20%", width: "auto" }}>
+      <Container
+        sx={{ pt: 3, ml: `${isDrawerOpen ? "20%" : "auto"}`, width: "auto" }}
+      >
         {isDrawerOpen ? null : (
           <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
             <ListIcon />

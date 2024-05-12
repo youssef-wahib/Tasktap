@@ -91,6 +91,7 @@ export default function ProjectNameAndDescriptionEditor({
           </Typography>
           <Typography
             variant={"h6"}
+            textAlign={"justify"}
             pb={1}
             pl={3}
             color={"textSecondary"}

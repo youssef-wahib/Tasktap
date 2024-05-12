@@ -30,6 +30,11 @@ function SectionNameAndDescriptionEditor({
   function handleCloseEditingDeadline() {
     setIsEditingDeadline(false);
   }
+  const hover = {
+    ["&:hover"]: {
+      cursor: "pointer",
+    },
+  };
   return (
     <>
       {isEditingTitle ? (
@@ -44,6 +49,7 @@ function SectionNameAndDescriptionEditor({
         />
       ) : (
         <Typography
+          sx={hover}
           pb={2}
           variant={"h4"}
           align={"center"}
@@ -54,7 +60,11 @@ function SectionNameAndDescriptionEditor({
       )}
 
       <Stack direction={"column"} spacing={1}>
-        <Typography variant={"h5"} onClick={handleOpenEditingDescription}>
+        <Typography
+          sx={hover}
+          variant={"h5"}
+          onClick={handleOpenEditingDescription}
+        >
           Description:
         </Typography>
         {isEditingDescription ? (
@@ -69,6 +79,7 @@ function SectionNameAndDescriptionEditor({
           />
         ) : (
           <Typography
+            sx={hover}
             pl={3}
             variant={"h6"}
             onClick={handleOpenEditingDescription}
@@ -87,8 +98,12 @@ function SectionNameAndDescriptionEditor({
             labelText={"Edit Deadline"}
           />
         ) : (
-          <Typography onClick={handleOpenEditingDeadline}>
-            {deadline ? deadline : "Add deadline"}
+          <Typography
+            sx={hover}
+            color={"primary"}
+            onClick={handleOpenEditingDeadline}
+          >
+            Deadline: {deadline ? deadline : "Add deadline"}
           </Typography>
         )}
       </Stack>

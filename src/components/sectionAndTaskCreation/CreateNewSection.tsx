@@ -25,7 +25,11 @@ function CreateNewSection({ projectId }: { projectId: string }) {
     data.id = crypto.randomUUID();
     data.projectId = projectId;
     data.createdAt = new Date().toDateString();
+    if (!data.deadline) {
+      data.deadline = null;
+    }
     addSection(data);
+    console.log(data);
     reset();
   };
 
@@ -66,6 +70,7 @@ function CreateNewSection({ projectId }: { projectId: string }) {
               )}
               <TextField
                 label="Description"
+                multiline
                 variant="outlined"
                 {...register("description")}
               />

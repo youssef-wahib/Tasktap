@@ -54,13 +54,13 @@ function AddNewTask({
       {isAddingNewTask ? (
         <Stack direction={"row"} spacing={2} mb={2}>
           <TextField
-            onBlur={() => {
-              setTimeout(() => {
-                setIsAddingNewTask(false);
-              }, 200);
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleAddTask();
+              }
             }}
             autoFocus
-            sx={{ width: "87%" }}
+            sx={{ flexGrow: "1" }}
             type={"text"}
             label={"New Task"}
             variant="outlined"
@@ -69,6 +69,7 @@ function AddNewTask({
           <Button endIcon={<AddTaskIcon />} onClick={handleAddTask}>
             add Task
           </Button>
+          <Button onClick={() => setIsAddingNewTask(false)}>cancel</Button>
         </Stack>
       ) : (
         <CardActionArea
