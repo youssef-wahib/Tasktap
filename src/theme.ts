@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 const buttonColor = "rgba(95,158,160,0.60)";
-const buttonHoverColor = "rgba(95,158,160)";
+const buttonHoverColor = "rgba(95,158,160,0.8)";
 const primaryText = "rgba(255,255,255,0.95)";
 const secondaryText = "rgba(255,255,255,0.75)";
 const bgColor = "rgba(18,18,18)";
@@ -35,10 +35,10 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: buttonColor,
+          backgroundColor: buttonHoverColor,
           color: secondaryText,
           "&:hover": {
-            backgroundColor: buttonHoverColor,
+            backgroundColor: buttonColor,
           },
         },
       },
@@ -47,10 +47,10 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20%",
-          backgroundColor: buttonColor,
+          backgroundColor: buttonHoverColor,
           color: secondaryText,
           "&:hover": {
-            backgroundColor: buttonHoverColor,
+            backgroundColor: buttonColor,
           },
         },
       },
@@ -84,8 +84,9 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         notchedOutline: {
-          borderColor: "rgba(255,255,255,0.4)",
+          borderColor: "rgba(255,255,255,0.60)",
           borderRadius: "10px",
+          backgroundColor: "rgba(255,255,255,0.15)",
         },
       },
     },
@@ -113,6 +114,15 @@ const theme = createTheme({
         paper: {
           backgroundColor: bgColor,
           borderRadius: "15px",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          "&::before, &::after": {
+            borderTop: `thin solid ${secondaryText}`,
+          },
         },
       },
     },

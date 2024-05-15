@@ -39,7 +39,6 @@ function AddNewTask({
   }
   function handleAddTask() {
     setIsAddingNewTask(false);
-
     setNewTaskText((prevState) => ({
       ...prevState,
       id: crypto.randomUUID(),

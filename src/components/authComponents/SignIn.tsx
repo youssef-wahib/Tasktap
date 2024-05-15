@@ -1,21 +1,12 @@
-import {
-  Button,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { supabase } from "../../utils/supabase.ts";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 type FormFields = {
   email: string;
   password: string;
 };
 function SignIn() {
-  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -46,10 +37,25 @@ function SignIn() {
     <>
       <form onSubmit={handleSubmit(onSubmitSignIn)}>
         <Stack direction={"column"} spacing={2}>
+          <Typography
+            color={"secondary"}
+            onClick={handleSubmit(onSubmitSignUp)}
+            align={"center"}
+            sx={{
+              ["&:hover"]: {
+                textDecoration: "underline",
+                cursor: "pointer",
+                color: "rgba(95,158,160,0.8)",
+              },
+            }}
+          >
+            Or create a new account
+          </Typography>
           <TextField
-            autoComplete="off"
+            autoComplete="email"
+            sx={{ color: "red" }}
             required
-            label={"Email"}
+            placeholder={"Email"}
             {...register("email", {
               required: true,
               validate: (value) => {
@@ -70,9 +76,9 @@ function SignIn() {
             <TextField
               autoComplete="off"
               fullWidth
-              type={showPass ? "text" : "password"}
+              type={"password"}
               required
-              label={"Password"}
+              placeholder={"Password"}
               {...register("password", {
                 required: true,
                 minLength: {
@@ -81,13 +87,6 @@ function SignIn() {
                 },
               })}
             />
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={() => setShowPass(!showPass)}
-              edge="end"
-            >
-              {showPass ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
           </Stack>
           {errors.password ? (
             <Typography variant={"subtitle1"}>
@@ -100,9 +99,8 @@ function SignIn() {
               {errors?.root?.message}
             </Typography>
           ) : null}
-          <Button type={"submit"}>Sign In</Button>
-          <Button onClick={handleSubmit(onSubmitSignUp)}>
-            SignUp to a new account
+          <Button variant={"contained"} type={"submit"}>
+            Sign In
           </Button>
         </Stack>
       </form>
