@@ -91,7 +91,6 @@ function SignIn() {
           {errors.password ? (
             <Typography variant={"subtitle1"}>
               {errors.password.message}
-              {errors?.root?.message}
             </Typography>
           ) : null}
           {errors.root ? (

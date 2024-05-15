@@ -54,13 +54,17 @@ export default function RootPage() {
         <Stack sx={{ overflow: "auto" }} justifyContent={"center"}>
           {user ? (
             <Stack
+              spacing={1}
               pt={3}
               direction={"row"}
               alignItems={"center"}
               flexWrap={"wrap"}
               justifyContent={"space-evenly"}
             >
-              <Typography>Welcome {user}</Typography>
+              <div>
+                <Typography>Welcome</Typography>
+                <Typography>{user}</Typography>
+              </div>
               <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
                 <ArrowBackIcon fontSize={"small"} />
               </IconButton>
@@ -72,7 +76,7 @@ export default function RootPage() {
             Link={`/${userId}`}
           />
           <DrawerListItems
-            Description={"View your Projects"}
+            Description={"View Projects"}
             Icon={<ListAltRounded color={"primary"} />}
             Link={"projects"}
           />

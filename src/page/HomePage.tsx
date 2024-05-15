@@ -39,13 +39,14 @@ function HomePage() {
 
   return (
     <Container sx={{ pt: "2%" }}>
-      <Card variant={"outlined"}>
+      <Card variant={"elevation"} elevation={0}>
         <CardContent>
           <Typography
-            color={"text.primary"}
-            variant={"h2"}
             gutterBottom
+            color={"text.primary"}
+            variant={"h3"}
             align={"center"}
+            fontWeight={"bold"}
           >
             Create Your Project
           </Typography>
@@ -57,16 +58,14 @@ function HomePage() {
           <form onSubmit={handleSubmit(onSubmit)} autoComplete={"off"}>
             <Stack direction={"column"} spacing={4}>
               <TextField
-                variant={"outlined"}
-                label={"Project Name"}
+                placeholder={"Project Name"}
                 {...register("name", {
                   required: "Please enter a Project name",
                 })}
               />
               <TextField
-                variant={"outlined"}
                 multiline
-                label={"Project Description"}
+                placeholder={"Project Description"}
                 {...register("description")}
               />
 

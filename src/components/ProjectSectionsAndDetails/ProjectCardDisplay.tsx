@@ -20,8 +20,8 @@ type projectRow = Database["public"]["Tables"]["projects"]["Row"];
 function ProjectCardDisplay({ name, description, id }: projectRow) {
   const { data: ProjectSection } = useFetchSections(id);
   return (
-    <Container sx={{ width: "50rem" }}>
-      <Card variant={"outlined"} elevation={0}>
+    <Container sx={{ width: "auto" }}>
+      <Card variant={"elevation"} elevation={0}>
         <CardContent>
           <ProjectNameAndDescriptionEditor
             DescriptionName={description}
