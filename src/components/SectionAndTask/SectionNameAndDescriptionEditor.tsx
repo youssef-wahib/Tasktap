@@ -84,7 +84,7 @@ function SectionNameAndDescriptionEditor({
             variant={"h6"}
             onClick={handleOpenEditingDescription}
           >
-            {description}
+            {description ? description : "Add Description"}
           </Typography>
         )}
         {isEditingDeadline ? (

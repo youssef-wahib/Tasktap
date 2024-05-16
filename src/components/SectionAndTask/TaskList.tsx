@@ -78,7 +78,9 @@ function TaskList({ sectionId }: { sectionId: string }) {
           </SortableContext>
         </DndContext>
 
-        <AddNewTask SectionRef={sectionId} order={taskList?.length} />
+        {taskList?.length ? (
+          <AddNewTask SectionRef={sectionId} order={taskList?.length} />
+        ) : null}
       </Stack>
     );
 }

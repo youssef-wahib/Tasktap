@@ -19,12 +19,14 @@ function AddNewTask({
   SectionRef: string;
   order: number | undefined;
 }) {
-  const [newTaskText, setNewTaskText] = useState({
+  const initialTaskState: tasksType = {
+    id: crypto.randomUUID(),
     title: "",
     completed: false,
     sectionId: SectionRef,
-    order: order ? order : 0,
-  } as tasksType);
+    order: order as number,
+  };
+  const [newTaskText, setNewTaskText] = useState(initialTaskState);
   const [isAddingNewTask, setIsAddingNewTask] = useState(false);
   const { mutate: addTask } = usePostNewTask();
 
@@ -39,12 +41,14 @@ function AddNewTask({
   }
   function handleAddTask() {
     setIsAddingNewTask(false);
+
     setNewTaskText((prevState) => ({
       ...prevState,
       id: crypto.randomUUID(),
     }));
     if (newTaskText.title?.trim().length) {
       addTask(newTaskText);
+      setNewTaskText(initialTaskState);
     }
   }
 

@@ -33,6 +33,11 @@ function EditTask({
       {isEditing ? (
         <TextField
           autoFocus
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleCloseEdit();
+            }
+          }}
           onBlur={() => {
             setTimeout(() => {
               handleCloseEdit();
