@@ -109,14 +109,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: bgColor,
-          borderRadius: "15px",
-        },
-      },
-    },
     MuiDivider: {
       styleOverrides: {
         root: {

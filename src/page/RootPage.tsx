@@ -18,7 +18,7 @@ export default function RootPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<string | undefined>("");
   const [userId, setUserId] = useState("");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {

@@ -29,13 +29,14 @@ export default function TextFieldEditor({
   }
 
   function handleSubmitEdit() {
-    updateSection({
-      Id,
-      textEdit,
-      columnTitle,
-      selectionTable,
-      eqColumn,
-    });
+    if (editValue !== textEdit && textEdit.length)
+      updateSection({
+        Id,
+        textEdit,
+        columnTitle,
+        selectionTable,
+        eqColumn,
+      });
   }
 
   return (
@@ -56,6 +57,7 @@ export default function TextFieldEditor({
               closeEdit();
             }
           }}
+          multiline={columnTitle === "description"}
           fullWidth
           autoFocus
           label={labelText}

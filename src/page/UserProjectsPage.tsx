@@ -1,4 +1,4 @@
-import { Container, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import ProjectCardDisplay from "../components/ProjectSectionsAndDetails/ProjectCardDisplay.tsx";
 
@@ -14,20 +14,18 @@ function UserProjectsPage() {
 
   if (isSuccess) {
     return (
-      <Container sx={{ py: "2%" }}>
-        <Stack spacing={3} direction="column" alignItems={"center"}>
-          {projects?.map((project: projectRow, index: number) => {
-            return (
-              <>
-                <ProjectCardDisplay key={project.id} {...project} />{" "}
-                {projects.length - 1 !== index ? (
-                  <hr style={{ width: "80%" }} />
-                ) : null}
-              </>
-            );
-          })}
-        </Stack>
-      </Container>
+      <Stack spacing={3} direction="column" alignItems={"center"}>
+        {projects?.map((project: projectRow, index: number) => {
+          return (
+            <div style={{ width: "100%" }} key={project.id}>
+              <ProjectCardDisplay key={project.id} {...project} />{" "}
+              {projects.length - 1 !== index ? (
+                <hr style={{ width: "80%" }} />
+              ) : null}
+            </div>
+          );
+        })}
+      </Stack>
     );
   }
 }
