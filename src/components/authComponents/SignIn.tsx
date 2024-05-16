@@ -76,7 +76,7 @@ function SignIn() {
               validate: (value) => {
                 if (value.includes("@")) return true;
                 else {
-                  return "Email missing @";
+                  return "Email missing ";
                 }
               },
             })}
