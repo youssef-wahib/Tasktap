@@ -39,12 +39,12 @@ function LoginPage() {
       <Card variant={"elevation"} elevation={0}>
         <Stack direction={"column"} spacing={3} sx={{ p: 3 }}>
           <Typography
-            variant={"h5"}
+            variant={"h4"}
             align={"center"}
             fontWeight={"bold"}
             color={"text"}
           >
-            Sign in to your account
+            Welcome to TaskTap
           </Typography>
           <SignIn />
           <Divider>Or continue with</Divider>

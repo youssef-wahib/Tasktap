@@ -2,12 +2,14 @@ import { Button, Stack, TextField, Typography } from "@mui/material";
 import { supabase } from "../../utils/supabase.ts";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 type FormFields = {
   email: string;
   password: string;
 };
 function SignIn() {
   const navigate = useNavigate();
+  const [toggleSignIn, setToggleSignIn] = useState(true);
   const {
     register,
     handleSubmit,
@@ -35,11 +37,22 @@ function SignIn() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmitSignIn)}>
+      <form
+        onSubmit={
+          toggleSignIn
+            ? handleSubmit(onSubmitSignIn)
+            : handleSubmit(onSubmitSignUp)
+        }
+      >
         <Stack direction={"column"} spacing={2}>
+          <Typography align={"center"} variant={"h6"} color={"cadetblue"}>
+            {!toggleSignIn
+              ? "Create a new account"
+              : "Get back to your account"}
+          </Typography>
           <Typography
             color={"secondary"}
-            onClick={handleSubmit(onSubmitSignUp)}
+            onClick={() => setToggleSignIn(!toggleSignIn)}
             align={"center"}
             sx={{
               ["&:hover"]: {
@@ -49,7 +62,9 @@ function SignIn() {
               },
             }}
           >
-            Or create a new account
+            {toggleSignIn
+              ? "Or create a new account"
+              : "Log In to your account"}
           </Typography>
           <TextField
             autoComplete="email"
@@ -99,7 +114,7 @@ function SignIn() {
             </Typography>
           ) : null}
           <Button variant={"contained"} type={"submit"}>
-            Sign In
+            {toggleSignIn ? "Sign In" : "Sign Up"}
           </Button>
         </Stack>
       </form>
