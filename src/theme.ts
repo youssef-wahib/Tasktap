@@ -57,15 +57,19 @@ const theme = createTheme({
     },
     MuiDrawer: {
       styleOverrides: {
-        paper: {
-          width: "17.5%",
+        paperAnchorLeft: {
+          width: "20%",
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: {
-            width: "17.5%",
+            width: "20%",
             boxSizing: "border-box",
           },
           backgroundColor: "rgb(37,36,36)",
           color: secondaryText,
+          "@media (max-width: 820px)": {
+            zIndex: 10,
+            width: "fit-content",
+          },
         },
       },
     },

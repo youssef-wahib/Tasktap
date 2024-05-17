@@ -60,6 +60,26 @@ function SectionNameAndDescriptionEditor({
       )}
 
       <Stack direction={"column"} spacing={1}>
+        {isEditingDeadline ? (
+          <TextFieldEditor
+            editValue={deadline as string}
+            closeEdit={handleCloseEditingDeadline}
+            Id={id}
+            columnTitle={"deadline"}
+            selectionTable={"sections"}
+            eqColumn={"id"}
+            labelText={"Edit Deadline"}
+          />
+        ) : (
+          <Typography
+            sx={hover}
+            variant={"h6"}
+            color={"primary"}
+            onClick={handleOpenEditingDeadline}
+          >
+            Deadline: {deadline ? deadline : "Add deadline"}
+          </Typography>
+        )}
         <Typography
           sx={hover}
           variant={"h5"}
@@ -67,6 +87,7 @@ function SectionNameAndDescriptionEditor({
         >
           Description:
         </Typography>
+
         {isEditingDescription ? (
           <TextFieldEditor
             editValue={description as string}
@@ -85,25 +106,6 @@ function SectionNameAndDescriptionEditor({
             onClick={handleOpenEditingDescription}
           >
             {description ? description : "Add Description"}
-          </Typography>
-        )}
-        {isEditingDeadline ? (
-          <TextFieldEditor
-            editValue={deadline as string}
-            closeEdit={handleCloseEditingDeadline}
-            Id={id}
-            columnTitle={"deadline"}
-            selectionTable={"sections"}
-            eqColumn={"id"}
-            labelText={"Edit Deadline"}
-          />
-        ) : (
-          <Typography
-            sx={hover}
-            color={"primary"}
-            onClick={handleOpenEditingDeadline}
-          >
-            Deadline: {deadline ? deadline : "Add deadline"}
           </Typography>
         )}
       </Stack>

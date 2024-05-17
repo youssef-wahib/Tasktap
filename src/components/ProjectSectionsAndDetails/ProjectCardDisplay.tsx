@@ -19,7 +19,7 @@ type projectRow = Database["public"]["Tables"]["projects"]["Row"];
 function ProjectCardDisplay({ name, description, id }: projectRow) {
   const { data: ProjectSection } = useFetchSections(id);
   return (
-    <Card variant={"elevation"} elevation={0} sx={{ width: "auto" }}>
+    <Card variant={"outlined"} sx={{ width: "100%" }}>
       <CardContent>
         <ProjectNameAndDescriptionEditor
           ProjectDescription={description}
@@ -32,7 +32,7 @@ function ProjectCardDisplay({ name, description, id }: projectRow) {
         ) : null}
 
         {ProjectSection?.map((section) => (
-          <ListItem key={section.id}>
+          <ListItem key={section.id} sx={{ flexWrap: "wrap" }}>
             <ListItemIcon sx={{ minWidth: "36px" }}>
               <CircleIcon color={"secondary"} fontSize={"small"} />
             </ListItemIcon>
@@ -47,6 +47,7 @@ function ProjectCardDisplay({ name, description, id }: projectRow) {
         <Link to={`${id}`}>
           <Button variant={"text"}>Details</Button>
         </Link>
+
         <DeleteConfirmation Id={id} table={"projects"} />
       </CardActions>
     </Card>

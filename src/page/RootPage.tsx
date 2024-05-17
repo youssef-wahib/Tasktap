@@ -39,18 +39,7 @@ export default function RootPage() {
   }
   return (
     <>
-      <Drawer
-        variant="persistent"
-        open={isDrawerOpen}
-        sx={{
-          display: "block",
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: "20%",
-            boxSizing: "border-box",
-          },
-        }}
-      >
+      <Drawer variant="persistent" open={isDrawerOpen}>
         <Stack sx={{ overflow: "auto" }} justifyContent={"center"}>
           {user ? (
             <Stack

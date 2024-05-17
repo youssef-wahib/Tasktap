@@ -15,15 +15,8 @@ function UserProjectsPage() {
   if (isSuccess) {
     return (
       <Stack spacing={3} direction="column" alignItems={"center"}>
-        {projects?.map((project: projectRow, index: number) => {
-          return (
-            <div style={{ width: "100%" }} key={project.id}>
-              <ProjectCardDisplay key={project.id} {...project} />{" "}
-              {projects.length - 1 !== index ? (
-                <hr style={{ width: "80%" }} />
-              ) : null}
-            </div>
-          );
+        {projects?.map((project: projectRow) => {
+          return <ProjectCardDisplay key={project.id} {...project} />;
         })}
       </Stack>
     );

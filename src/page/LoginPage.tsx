@@ -28,7 +28,6 @@ function LoginPage() {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log(session);
         if (event === "SIGNED_IN" && session) navigate(`/${session.user.id}`);
       },
     );

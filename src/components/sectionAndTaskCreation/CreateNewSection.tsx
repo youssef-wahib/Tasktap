@@ -39,12 +39,14 @@ function CreateNewSection({ projectId }: { projectId: string }) {
         sx={{
           background: "transparent",
           fontSize: "2em",
-          pb: 2,
-          color: "rgba(95,158,160,0.75)",
+          mb: 2,
+          color: "rgba(95,158,160)",
+          border: "1px solid rgba(255,255,255,0.20)",
           "&:hover": {
-            color: "rgba(95,158,160)",
+            color: "rgba(95,158,160,0.75)",
           },
         }}
+        variant={"outlined"}
         elevation={0}
       >
         <AccordionSummary
