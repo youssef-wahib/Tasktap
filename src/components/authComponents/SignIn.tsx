@@ -1,4 +1,4 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { supabase } from "../../utils/supabase.ts";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -44,28 +44,55 @@ function SignIn() {
             : handleSubmit(onSubmitSignUp)
         }
       >
-        <Stack direction={"column"} spacing={2}>
-          <Typography align={"center"} variant={"h6"} color={"cadetblue"}>
-            {!toggleSignIn
-              ? "Create a new account"
-              : "Get back to your account"}
-          </Typography>
-          <Typography
-            color={"secondary"}
-            onClick={() => setToggleSignIn(!toggleSignIn)}
-            align={"center"}
-            sx={{
-              ["&:hover"]: {
-                textDecoration: "underline",
-                cursor: "pointer",
-                color: "rgba(95,158,160,0.8)",
-              },
-            }}
-          >
-            {toggleSignIn
-              ? "Or create a new account"
-              : "Log In to your account"}
-          </Typography>
+        <Stack direction={"column"} spacing={3}>
+          <Stack direction={"row"} justifyContent={"space-around"} pb={2}>
+            <Box
+              borderBottom={
+                !toggleSignIn
+                  ? `solid cadetblue`
+                  : `solid ${"rgba(95,158,160,0.2)"}`
+              }
+              sx={{ width: "48%" }}
+            >
+              <Typography
+                variant={"h6"}
+                color={"cadetblue"}
+                onClick={() => setToggleSignIn(false)}
+                align={"center"}
+                sx={{
+                  ["&:hover"]: {
+                    cursor: "pointer",
+                    color: "rgba(95,158,160,0.8)",
+                  },
+                }}
+              >
+                Sign up
+              </Typography>
+            </Box>
+            <Box
+              sx={{ width: "48%" }}
+              borderBottom={
+                toggleSignIn
+                  ? `solid cadetblue`
+                  : `solid ${"rgba(95,158,160,0.2)"}`
+              }
+            >
+              <Typography
+                variant={"h6"}
+                color={"cadetblue"}
+                onClick={() => setToggleSignIn(true)}
+                align={"center"}
+                sx={{
+                  ["&:hover"]: {
+                    cursor: "pointer",
+                    color: "rgba(95,158,160,0.8)",
+                  },
+                }}
+              >
+                Log in
+              </Typography>
+            </Box>
+          </Stack>
           <TextField
             autoComplete="email"
             sx={{ color: "red" }}
@@ -76,7 +103,7 @@ function SignIn() {
               validate: (value) => {
                 if (value.includes("@")) return true;
                 else {
-                  return "Email missing ";
+                  return "Email missing @";
                 }
               },
             })}
@@ -114,7 +141,7 @@ function SignIn() {
             </Typography>
           ) : null}
           <Button variant={"contained"} type={"submit"}>
-            {toggleSignIn ? "Sign In" : "Sign Up"}
+            {toggleSignIn ? "Log In" : "Sign Up"}
           </Button>
         </Stack>
       </form>
