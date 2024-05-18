@@ -58,11 +58,10 @@ export default function ProjectNameAndDescriptionEditor({
         />
       ) : (
         <Typography
-          variant={"h6"}
+          variant={"body1"}
           textAlign={"justify"}
           pb={1}
           pl={3}
-          color={"textSecondary"}
           onClick={toggleEditDescription}
         >
           {ProjectDescription ? ProjectDescription : "Add Description"}

@@ -39,14 +39,21 @@ function InteractiveTask({ title, completed, id }: tasksType) {
         p={0.5}
         m={0.5}
         alignItems={"center"}
+        sx={{
+          "@media (max-width: 550px)": {
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+          },
+        }}
       >
         {isEditingTask ? null : (
           <CardActionArea sx={{ py: 0.7 }} onClick={handleChangeState}>
             <Stack spacing={1} direction={"row"} alignItems={"center"} px={1}>
               {taskState ? <CheckCircleIcon /> : <CheckCircleOutlineIcon />}
               <Typography
-                variant={"h6"}
+                variant={"body1"}
                 pl={2}
+                textAlign={"justify"}
                 sx={{ textDecoration: !taskState ? "" : "line-through" }}
               >
                 {title}

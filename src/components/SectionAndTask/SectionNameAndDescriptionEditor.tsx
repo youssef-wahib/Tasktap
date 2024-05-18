@@ -100,9 +100,11 @@ function SectionNameAndDescriptionEditor({
           />
         ) : (
           <Typography
+            color={"textSecondary"}
             sx={hover}
             pl={3}
             variant={"h6"}
+            textAlign={"justify"}
             onClick={handleOpenEditingDescription}
           >
             {description ? description : "Add Description"}

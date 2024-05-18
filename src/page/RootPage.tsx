@@ -1,7 +1,6 @@
 import {
   Button,
   Container,
-  Divider,
   Drawer,
   IconButton,
   Stack,
@@ -37,6 +36,9 @@ export default function RootPage() {
     if (error) console.log(error);
     else navigate("/");
   }
+  function closeDrawer() {
+    setIsDrawerOpen(false);
+  }
   return (
     <>
       <Drawer variant="persistent" open={isDrawerOpen}>
@@ -63,13 +65,14 @@ export default function RootPage() {
             Description={"New Project"}
             Icon={<Home color={"primary"} />}
             Link={`/${userId}`}
+            closeDrawer={closeDrawer}
           />
           <DrawerListItems
             Description={"View Projects"}
             Icon={<ListAltRounded color={"primary"} />}
             Link={"projects"}
+            closeDrawer={closeDrawer}
           />
-          <Divider />
         </Stack>
         <Button onClick={handleSignOut}>Logout</Button>
       </Drawer>

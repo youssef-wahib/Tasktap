@@ -10,12 +10,18 @@ interface DrawerListItemsTypes {
   Link: string;
   Icon: ReactNode;
   Description: string;
+  closeDrawer: () => void;
 }
-function DrawerListItems({ Link, Icon, Description }: DrawerListItemsTypes) {
+function DrawerListItems({
+  Link,
+  Icon,
+  Description,
+  closeDrawer,
+}: DrawerListItemsTypes) {
   return (
     <NavLink style={{ textDecoration: "inherit", color: "inherit" }} to={Link}>
       <ListItem>
-        <ListItemButton>
+        <ListItemButton onClick={closeDrawer}>
           <ListItemIcon>{Icon} </ListItemIcon>
           <ListItemText>{Description}</ListItemText>
         </ListItemButton>

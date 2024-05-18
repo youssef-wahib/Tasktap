@@ -33,7 +33,6 @@ function HomePage() {
     });
     data.id = crypto.randomUUID();
     addNewProject(data);
-    console.log("submitted");
     reset();
   };
 
@@ -51,7 +50,7 @@ function HomePage() {
             Create Your Project
           </Typography>
           <Typography color={"text.secondary"} variant={"h5"} align={"center"}>
-            Enter the name of your project and a small description.
+            Enter the name of your project and a description.
           </Typography>
         </CardContent>
         <Container sx={{ p: 3 }} maxWidth={"sm"}>
@@ -68,7 +67,6 @@ function HomePage() {
                 placeholder={"Project Description"}
                 {...register("description")}
               />
-
               <Button
                 disableElevation
                 color={"secondary"}
@@ -79,11 +77,9 @@ function HomePage() {
               >
                 Add Project
               </Button>
-
               <Typography variant={"h6"} align={"center"}>
                 {errors.name?.message}
               </Typography>
-
               {isSuccess ? (
                 <CustomizedSnackbars message={"Project Created"} />
               ) : null}

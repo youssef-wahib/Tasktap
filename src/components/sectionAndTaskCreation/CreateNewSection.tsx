@@ -42,6 +42,7 @@ function CreateNewSection({ projectId }: { projectId: string }) {
           mb: 2,
           color: "rgba(95,158,160)",
           border: "1px solid rgba(255,255,255,0.20)",
+          borderRadius: "5px",
           "&:hover": {
             color: "rgba(95,158,160,0.75)",
           },
