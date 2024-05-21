@@ -31,7 +31,6 @@ export default function DeleteConfirmation({
         endIcon={<DeleteIcon />}
         variant="contained"
         onClick={handleClickOpen}
-        color={"error"}
       >
         Delete {name}
       </Button>
@@ -42,8 +41,12 @@ export default function DeleteConfirmation({
       >
         <DialogTitle>Are you sure you want to delete this {name}</DialogTitle>
         <DialogActions>
-          <Button onClick={handleDelete}>yes</Button>
-          <Button onClick={handleClose}>no</Button>
+          <Button variant={"contained"} onClick={handleDelete}>
+            yes
+          </Button>
+          <Button variant={"contained"} onClick={handleClose}>
+            no
+          </Button>
         </DialogActions>
       </Dialog>
       {isSuccess ? <CustomizedSnackbars message={`${name} Deleted`} /> : null}

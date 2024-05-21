@@ -50,6 +50,7 @@ function LoginPage() {
           <Stack direction={"row"} spacing={1} justifyContent={"space-around"}>
             <Button
               fullWidth
+              variant={"contained"}
               startIcon={
                 <svg
                   fill="currentColor"
@@ -64,6 +65,7 @@ function LoginPage() {
             />
             <Button
               fullWidth
+              variant={"contained"}
               startIcon={
                 <svg
                   aria-hidden="true"

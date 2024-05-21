@@ -10,16 +10,24 @@ import {
 
 import SwitchAccessShortcutAddIcon from "@mui/icons-material/SwitchAccessShortcutAdd";
 
-import { usePostNewProject } from "../utils/useQuerySupabase.ts";
+import { useGetUser, usePostNewProject } from "../utils/useQuerySupabase.ts";
 import CustomizedSnackbars from "../components/reusableComponents/EventSuccessSnackBar.tsx";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Database } from "../supabaseTypes.ts";
-
-import { supabase } from "../utils/supabase.ts";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type projectsType = Database["public"]["Tables"]["projects"];
 
 function HomePage() {
+  const [currentUser, setCurrentUser] = useState<string>();
+  const { data: userResponse, isSuccess: userFetched } = useGetUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userFetched && userResponse.data.user)
+      setCurrentUser(userResponse?.data.user?.id);
+  }, [userResponse, userFetched]);
+
   const {
     register,
     handleSubmit,
@@ -28,11 +36,12 @@ function HomePage() {
   } = useForm<projectsType["Insert"]>();
   const { mutate: addNewProject, isLoading, isSuccess } = usePostNewProject();
   const onSubmit: SubmitHandler<projectsType["Insert"]> = (data) => {
-    supabase.auth.onAuthStateChange((_event, session) => {
-      data.userId = session?.user.id;
-    });
+    if (currentUser) {
+      data.userId = currentUser;
+      addNewProject(data);
+      setTimeout(() => navigate(`/${currentUser}/projects`), 2500);
+    }
     data.id = crypto.randomUUID();
-    addNewProject(data);
     reset();
   };
 

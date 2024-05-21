@@ -16,12 +16,11 @@ import ListIcon from "@mui/icons-material/List";
 export default function RootPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<string | undefined>("");
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState<string | undefined>("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        // console.log(session);
         if (session) {
           setUser(session.user?.email?.split("@")[0]);
           setUserId(session.user.id);
@@ -29,7 +28,7 @@ export default function RootPage() {
       },
     );
     return authListener?.subscription.unsubscribe;
-  }, []);
+  }, [userId]);
 
   async function handleSignOut() {
     const { error } = await supabase.auth.signOut();
@@ -74,7 +73,9 @@ export default function RootPage() {
             closeDrawer={closeDrawer}
           />
         </Stack>
-        <Button onClick={handleSignOut}>Logout</Button>
+        <Button variant={"contained"} onClick={handleSignOut}>
+          Logout
+        </Button>
       </Drawer>
       <Container
         sx={{ pt: 3, ml: `${isDrawerOpen ? "20%" : "auto"}`, width: "auto" }}

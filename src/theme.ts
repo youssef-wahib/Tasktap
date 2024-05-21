@@ -4,13 +4,14 @@ const buttonHoverColor = "rgba(95,158,160,0.8)";
 const primaryText = "rgba(255,255,255,0.95)";
 const secondaryText = "rgba(255,255,255,0.75)";
 const bgColor = "rgba(18,18,18)";
+const cardBorderColor = "rgba(255,255,255,0.2)";
 const theme = createTheme({
   palette: {
     primary: {
-      main: buttonHoverColor, // Warm orange color
+      main: buttonColor, // Warm orange color
     },
     secondary: {
-      main: buttonColor, // Light yellow color
+      main: buttonHoverColor, // Light yellow color
     },
     background: {
       default: bgColor, // Light gray background
@@ -25,21 +26,10 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: "rgba(18,18,18,0.96)",
+          backgroundColor: bgColor,
           color: primaryText,
-          borderColor: "rgba(255,255,255,0.2)",
+          borderColor: cardBorderColor,
           borderRadius: "10px",
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          backgroundColor: buttonHoverColor,
-          color: secondaryText,
-          "&:hover": {
-            backgroundColor: buttonColor,
-          },
         },
       },
     },

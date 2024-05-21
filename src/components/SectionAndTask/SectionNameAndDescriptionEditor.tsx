@@ -74,7 +74,7 @@ function SectionNameAndDescriptionEditor({
           <Typography
             sx={hover}
             variant={"h6"}
-            color={"primary"}
+            color={"secondary"}
             onClick={handleOpenEditingDeadline}
           >
             Deadline: {deadline ? deadline : "Add deadline"}

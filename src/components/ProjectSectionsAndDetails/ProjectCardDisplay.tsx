@@ -45,7 +45,7 @@ function ProjectCardDisplay({ name, description, id }: projectRow) {
       </CardContent>
       <CardActions sx={{ justifyContent: "space-evenly", pb: 2.5 }}>
         <Link to={`${id}`}>
-          <Button variant={"text"}>Details</Button>
+          <Button variant={"contained"}>Details</Button>
         </Link>
 
         <DeleteConfirmation Id={id} table={"projects"} />

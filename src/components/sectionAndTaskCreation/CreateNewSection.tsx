@@ -88,7 +88,9 @@ function CreateNewSection({ projectId }: { projectId: string }) {
                 type={"date"}
                 {...register("deadline")}
               />
-              <Button type={"submit"}>Add Section </Button>
+              <Button variant={"contained"} type={"submit"}>
+                Add Section
+              </Button>
             </Stack>
           </form>
         </AccordionDetails>

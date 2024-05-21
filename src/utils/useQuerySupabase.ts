@@ -177,3 +177,10 @@ export function useUpdateTaskOrder() {
     },
   });
 }
+
+export function useGetUser() {
+  return useQuery({
+    queryFn: async () => await supabase.auth.getUser(),
+    onSuccess: () => console.log("user fetched"),
+  });
+}
