@@ -76,20 +76,23 @@ export type Database = {
       tasks: {
         Row: {
           completed: boolean | null;
+          createdBy: string;
           id: string;
           order: number | null;
           sectionId: string;
-          title: string | null;
+          title: string;
         };
         Insert: {
           completed?: boolean | null;
+          createdBy?: string;
           id?: string;
           order?: number | null;
           sectionId: string;
-          title?: string | null;
+          title?: string;
         };
         Update: {
           completed?: boolean | null;
+          createdBy?: string;
           id?: string;
           order?: number | null;
           sectionId?: string;
@@ -101,6 +104,13 @@ export type Database = {
             columns: ["sectionId"];
             isOneToOne: false;
             referencedRelation: "sections";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tasks_createdby_fkey";
+            columns: ["createdBy"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];

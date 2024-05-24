@@ -78,9 +78,9 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         notchedOutline: {
-          borderColor: "rgba(255,255,255,0.60)",
+          borderColor: "rgba(255,255,255,0.05)",
           borderRadius: "10px",
-          backgroundColor: "rgba(255,255,255,0.15)",
+          backgroundColor: "rgba(255,255,255,0.1)",
         },
       },
     },

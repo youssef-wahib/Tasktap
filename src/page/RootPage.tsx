@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Drawer,
+  Fade,
   IconButton,
   Stack,
   Typography,
@@ -40,7 +41,7 @@ export default function RootPage() {
   }
   return (
     <>
-      <Drawer variant="persistent" open={isDrawerOpen}>
+      <Drawer variant="persistent" open={isDrawerOpen} transitionDuration={500}>
         <Stack sx={{ overflow: "auto" }} justifyContent={"center"}>
           {user ? (
             <Stack
@@ -72,21 +73,34 @@ export default function RootPage() {
             Link={"projects"}
             closeDrawer={closeDrawer}
           />
+          <Button
+            sx={{ width: "50%", alignSelf: "center" }}
+            variant={"contained"}
+            onClick={handleSignOut}
+          >
+            Logout
+          </Button>
         </Stack>
-        <Button variant={"contained"} onClick={handleSignOut}>
-          Logout
-        </Button>
       </Drawer>
-      <Container
-        sx={{ pt: 3, ml: `${isDrawerOpen ? "20%" : "auto"}`, width: "auto" }}
-      >
-        {isDrawerOpen ? null : (
-          <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+      <Stack direction={"row"} alignItems={"flex-start"}>
+        <Fade in={!isDrawerOpen} timeout={250}>
+          <IconButton
+            sx={{ ml: 5, mt: 5 }}
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+          >
             <ListIcon />
           </IconButton>
-        )}
-        <Outlet />
-      </Container>
+        </Fade>
+        <Container
+          sx={{
+            pt: 3,
+            marginLeft: `${isDrawerOpen ? "20%" : "15%"}`,
+            transition: "margin-left 500ms ease-in-out",
+          }}
+        >
+          <Outlet />
+        </Container>
+      </Stack>
     </>
   );
 }

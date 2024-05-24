@@ -14,6 +14,7 @@ function ProjectPage() {
   return (
     <Container sx={{ pt: "1%" }}>
       <CreateNewSection projectId={id as string} />
+
       <Stack spacing={4}>
         {Sections?.length ? (
           Sections?.map((section: sectionsType) => (

@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import {
   useFetchTasks,
   useUpdateTaskOrder,
@@ -68,19 +68,15 @@ function TaskList({ sectionId }: { sectionId: string }) {
             id={sectionId}
             items={taskList?.map((task) => task.id) ?? []}
           >
-            {taskList?.length ? (
-              taskList.map((task) => (
-                <InteractiveTask key={task.id} {...task} />
-              ))
-            ) : (
-              <Typography variant={"h6"}>No Tasks in this Section</Typography>
-            )}
+            {taskList?.length
+              ? taskList.map((task) => (
+                  <InteractiveTask key={task.id} {...task} />
+                ))
+              : null}
           </SortableContext>
         </DndContext>
 
-        {taskList?.length ? (
-          <AddNewTask SectionRef={sectionId} order={taskList?.length} />
-        ) : null}
+        <AddNewTask SectionRef={sectionId} order={taskList?.length} />
       </Stack>
     );
 }
