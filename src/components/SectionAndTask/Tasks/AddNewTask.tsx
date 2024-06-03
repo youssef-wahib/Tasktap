@@ -83,15 +83,24 @@ function AddNewTask({
             variant="outlined"
             onChange={handleInputChange}
           />
-          <Button endIcon={<AddTaskIcon />} onClick={handleAddTask}>
+          <Button
+            variant={"contained"}
+            endIcon={<AddTaskIcon />}
+            onClick={handleAddTask}
+          >
             Add Task
           </Button>
-          <Button onClick={() => setIsAddingNewTask(false)}>Cancel</Button>
+          <Button
+            variant={"contained"}
+            onClick={() => setIsAddingNewTask(false)}
+          >
+            Cancel
+          </Button>
         </Stack>
       ) : (
         <CardActionArea
           onClick={() => setIsAddingNewTask(true)}
-          sx={{ "&:hover": { color: "rgba(95,158,160)" } }}
+          sx={{ "&:hover": { color: "rgba(255,255,255,0.75)" } }}
         >
           <Stack spacing={1} direction="row" alignItems="center" px={2} py={1}>
             <AddCircleIcon />

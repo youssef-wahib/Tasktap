@@ -1,4 +1,4 @@
-import { Card, CardContent, Container, Stack, Typography } from "@mui/material";
+import { Card, CardContent, Stack, Typography } from "@mui/material";
 
 import { useFetchSections } from "../utils/useQuerySupabase.ts";
 import { useParams } from "react-router-dom";
@@ -12,9 +12,8 @@ function ProjectPage() {
   const { data: Sections } = useFetchSections(id as string);
 
   return (
-    <Container sx={{ pt: "1%" }}>
+    <>
       <CreateNewSection projectId={id as string} />
-
       <Stack spacing={4}>
         {Sections?.length ? (
           Sections?.map((section: sectionsType) => (
@@ -30,7 +29,7 @@ function ProjectPage() {
           </Card>
         )}
       </Stack>
-    </Container>
+    </>
   );
 }
 

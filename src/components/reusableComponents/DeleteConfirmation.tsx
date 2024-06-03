@@ -30,6 +30,7 @@ export default function DeleteConfirmation({
       <Button
         endIcon={<DeleteIcon />}
         variant="contained"
+        size={"large"}
         onClick={handleClickOpen}
       >
         Delete {name}

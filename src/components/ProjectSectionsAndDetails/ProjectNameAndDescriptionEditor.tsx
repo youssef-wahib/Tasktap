@@ -1,28 +1,34 @@
-import { Typography } from "@mui/material";
-import { useState } from "react";
+import { Stack, Typography } from "@mui/material";
+import { Dispatch, SetStateAction, useState } from "react";
 import TextFieldEditor from "../reusableComponents/TextFieldEditor.tsx";
 
 export default function ProjectNameAndDescriptionEditor({
   Id,
   ProjectName,
   ProjectDescription,
+  accordionControl,
 }: {
   Id: string;
   ProjectName: string;
   ProjectDescription?: string | null;
+  accordionControl: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
   function toggleEditTitle() {
     setIsEditingTitle(!isEditingTitle);
+
+    accordionControl(true);
   }
   function toggleEditDescription() {
     setIsEditingDescription(!isEditingDescription);
+
+    accordionControl(true);
   }
 
   return (
-    <>
+    <Stack direction="column" width={"95%"} px={1}>
       {isEditingTitle ? (
         <TextFieldEditor
           editValue={ProjectName}
@@ -36,14 +42,14 @@ export default function ProjectNameAndDescriptionEditor({
       ) : (
         <Typography
           variant={"h4"}
-          color={"text"}
-          align={"center"}
+          color={"textPrimary"}
+          align={"left"}
           onClick={toggleEditTitle}
         >
           {ProjectName}
         </Typography>
       )}
-      <Typography variant={"h5"} py={1}>
+      <Typography color={"secondary"} variant={"h6"}>
         Description:
       </Typography>
       {isEditingDescription ? (
@@ -60,13 +66,13 @@ export default function ProjectNameAndDescriptionEditor({
         <Typography
           variant={"body1"}
           textAlign={"justify"}
-          pb={1}
-          pl={3}
+          pl={2.25}
+          py={1}
           onClick={toggleEditDescription}
         >
           {ProjectDescription ? ProjectDescription : "Add Description"}
         </Typography>
       )}
-    </>
+    </Stack>
   );
 }

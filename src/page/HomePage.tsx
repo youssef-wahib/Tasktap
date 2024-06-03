@@ -78,7 +78,6 @@ function HomePage() {
               />
               <Button
                 disableElevation
-                color={"secondary"}
                 variant={"contained"}
                 type={"submit"}
                 startIcon={<SwitchAccessShortcutAddIcon />}

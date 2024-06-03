@@ -1,7 +1,7 @@
 import { supabase } from "../utils/supabase.ts";
 import {
+  Box,
   Button,
-  Card,
   Container,
   Divider,
   Stack,
@@ -10,7 +10,10 @@ import {
 import SignIn from "../components/authComponents/SignIn.tsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { SvgLogo } from "../components/logo.tsx";
+
 // /user
+
 function LoginPage() {
   const navigate = useNavigate();
   async function handleSignInGoogle() {
@@ -25,6 +28,7 @@ function LoginPage() {
     });
     if (error) console.log(error);
   }
+
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -34,9 +38,12 @@ function LoginPage() {
     return authListener.subscription.unsubscribe;
   }, [navigate]);
   return (
-    <Container sx={{ pt: "5%" }} maxWidth={"sm"}>
-      <Card variant={"elevation"} elevation={0}>
-        <Stack direction={"column"} spacing={3} sx={{ p: 3 }}>
+    <Stack direction={"row"}>
+      <Container maxWidth={"sm"}>
+        <Stack direction={"column"} spacing={3}>
+          <Box width={"40%"} alignSelf={"center"}>
+            <SvgLogo inheritViewBox />
+          </Box>
           <Typography
             variant={"h4"}
             align={"center"}
@@ -80,8 +87,8 @@ function LoginPage() {
             />
           </Stack>
         </Stack>
-      </Card>
-    </Container>
+      </Container>
+    </Stack>
   );
 }
 

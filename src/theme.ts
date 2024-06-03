@@ -1,20 +1,21 @@
 import { createTheme } from "@mui/material/styles";
-const buttonColor = "rgba(95,158,160,0.60)";
-const buttonHoverColor = "rgba(95,158,160,0.8)";
-const primaryText = "rgba(255,255,255,0.95)";
+const primaryMain = "rgba(38,63,64)";
+const secondaryMain = "rgb(112, 163, 164)";
+const primaryText = "rgba(245,245,245,0.95)";
 const secondaryText = "rgba(255,255,255,0.75)";
-const bgColor = "rgba(18,18,18)";
+const bgColor = "rgba(12,12,12)";
 const cardBorderColor = "rgba(255,255,255,0.2)";
 const theme = createTheme({
   palette: {
     primary: {
-      main: buttonColor, // Warm orange color
+      main: primaryMain, // Warm orange color
     },
     secondary: {
-      main: buttonHoverColor, // Light yellow color
+      main: secondaryMain, // Light yellow color
     },
     background: {
       default: bgColor, // Light gray background
+      paper: bgColor,
     },
     text: {
       primary: primaryText, // Dark text color
@@ -37,10 +38,11 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20%",
-          backgroundColor: buttonHoverColor,
-          color: secondaryText,
+          backgroundColor: primaryMain,
+          color: primaryText,
           "&:hover": {
-            backgroundColor: buttonColor,
+            backgroundColor: "rgba(38,63,64,0.8)",
+            transition: "background-color 0.3s ease",
           },
         },
       },
@@ -54,7 +56,7 @@ const theme = createTheme({
             width: "20%",
             boxSizing: "border-box",
           },
-          backgroundColor: "rgb(37,36,36)",
+          backgroundColor: "rgb(28,28,28)",
           color: secondaryText,
           "@media (max-width: 820px)": {
             zIndex: 10,
@@ -69,8 +71,9 @@ const theme = createTheme({
           borderRadius: "12px",
           color: secondaryText,
           "&:hover": {
-            backgroundColor: "rgba(48,52,52,0.66)",
+            backgroundColor: "rgb(35, 35, 35)",
             borderRadius: "12px",
+            transition: "background-color 0.3s ease",
           },
         },
       },
@@ -89,7 +92,7 @@ const theme = createTheme({
         root: {
           backgroundColor: bgColor,
           "&:hover": {
-            backgroundColor: buttonColor,
+            backgroundColor: primaryMain,
           },
         },
       },
@@ -111,12 +114,13 @@ const theme = createTheme({
         },
       },
     },
-    MuiDivider: {
+    MuiAccordion: {
       styleOverrides: {
         root: {
-          "&::before, &::after": {
-            borderTop: `thin solid ${secondaryText}`,
-          },
+          background: "transparent",
+          fontSize: "2em",
+          border: "1px solid rgba(255,255,255,0.20)",
+          borderRadius: "5px",
         },
       },
     },

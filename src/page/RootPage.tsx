@@ -1,24 +1,23 @@
 import {
+  AppBar,
+  Box,
   Button,
   Container,
-  Drawer,
-  Fade,
-  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
+
 import { Outlet, useNavigate } from "react-router-dom";
-import { Home, ListAltRounded } from "@mui/icons-material";
-import DrawerListItems from "../components/DrawerListItems";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase.ts";
-import ListIcon from "@mui/icons-material/List";
+
+import { SvgLogo } from "../components/logo.tsx";
+import NavBarButton from "../components/reusableComponents/NavBarButton.tsx";
+
 export default function RootPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<string | undefined>("");
   const [userId, setUserId] = useState<string | undefined>("");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
@@ -36,71 +35,44 @@ export default function RootPage() {
     if (error) console.log(error);
     else navigate("/");
   }
-  function closeDrawer() {
-    setIsDrawerOpen(false);
-  }
+
   return (
     <>
-      <Drawer variant="persistent" open={isDrawerOpen} transitionDuration={500}>
-        <Stack sx={{ overflow: "auto" }} justifyContent={"center"}>
-          {user ? (
+      <AppBar sx={{ mb: 3 }} position="static">
+        <Container>
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+            <Box minWidth={"70px"}>
+              <SvgLogo inheritViewBox />
+            </Box>
+            <Typography fontWeight={"bold"} variant="h5">
+              TaskTap
+            </Typography>
             <Stack
-              spacing={1}
-              pt={3}
               direction={"row"}
-              alignItems={"center"}
-              flexWrap={"wrap"}
-              justifyContent={"space-evenly"}
+              sx={{ flexGrow: 1 }}
+              spacing={3}
+              justifyContent={"center"}
             >
-              <div>
-                <Typography>Welcome</Typography>
-                <Typography>{user}</Typography>
-              </div>
-              <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
-                <ArrowBackIcon fontSize={"small"} />
-              </IconButton>
+              <NavBarButton Description={"New Project"} Link={`/${userId}`} />
+              <NavBarButton Description={"View Projects"} Link={"projects"} />
             </Stack>
-          ) : null}
-          <DrawerListItems
-            Description={"New Project"}
-            Icon={<Home color={"primary"} />}
-            Link={`/${userId}`}
-            closeDrawer={closeDrawer}
-          />
-          <DrawerListItems
-            Description={"View Projects"}
-            Icon={<ListAltRounded color={"primary"} />}
-            Link={"projects"}
-            closeDrawer={closeDrawer}
-          />
-          <Button
-            sx={{ width: "50%", alignSelf: "center" }}
-            variant={"contained"}
-            onClick={handleSignOut}
-          >
-            Logout
-          </Button>
-        </Stack>
-      </Drawer>
-      <Stack direction={"row"} alignItems={"flex-start"}>
-        <Fade in={!isDrawerOpen} timeout={250}>
-          <IconButton
-            sx={{ ml: 5, mt: 5 }}
-            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-          >
-            <ListIcon />
-          </IconButton>
-        </Fade>
-        <Container
-          sx={{
-            pt: 3,
-            marginLeft: `${isDrawerOpen ? "20%" : "15%"}`,
-            transition: "margin-left 500ms ease-in-out",
-          }}
-        >
-          <Outlet />
+            <Typography variant="h5" fontWeight={"bold"} color={"secondary"}>
+              {user}
+            </Typography>
+
+            <Button
+              color={"inherit"}
+              onClick={handleSignOut}
+              sx={{ borderLeft: "1px solid currentColor", borderRadius: 0 }}
+            >
+              Logout
+            </Button>
+          </Stack>
         </Container>
-      </Stack>
+      </AppBar>
+      <Container>
+        <Outlet />
+      </Container>
     </>
   );
 }
