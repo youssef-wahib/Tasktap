@@ -5,6 +5,8 @@ import {
   Container,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import { Outlet, useNavigate } from "react-router-dom";
@@ -35,35 +37,51 @@ export default function RootPage() {
     if (error) console.log(error);
     else navigate("/");
   }
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down(431));
 
   return (
     <>
-      <AppBar sx={{ mb: 3 }} position="static">
-        <Container>
-          <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            <Box minWidth={"70px"}>
+      <AppBar position="static" sx={{ mb: 3 }}>
+        <Container sx={{ p: isMobile ? 0 : undefined }}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Box minWidth={isMobile ? "35px" : "70px"}>
               <SvgLogo inheritViewBox />
             </Box>
-            <Typography fontWeight={"bold"} variant="h5">
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              sx={{ fontSize: isMobile ? "0.8rem" : undefined }}
+            >
               TaskTap
             </Typography>
             <Stack
-              direction={"row"}
-              sx={{ flexGrow: 1 }}
+              direction="row"
+              flexGrow={isMobile ? 0 : 1}
               spacing={3}
-              justifyContent={"center"}
+              justifyContent="center"
             >
-              <NavBarButton Description={"New Project"} Link={`/${userId}`} />
-              <NavBarButton Description={"View Projects"} Link={"projects"} />
+              <NavBarButton Description="New Project" Link={`/${userId}`} />
+              <NavBarButton Description="View Projects" Link="projects" />
             </Stack>
-            <Typography variant="h5" fontWeight={"bold"} color={"secondary"}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="secondary"
+              sx={{ fontSize: isMobile ? "0.6rem" : undefined }}
+            >
               {user}
             </Typography>
-
             <Button
-              color={"inherit"}
+              color="inherit"
               onClick={handleSignOut}
-              sx={{ borderLeft: "1px solid currentColor", borderRadius: 0 }}
+              sx={{
+                borderLeft: "1px solid",
+                borderRadius: 0,
+                fontSize: isMobile ? "0.5rem" : undefined,
+                mx: isMobile ? 0 : undefined,
+                px: isMobile ? 0 : undefined,
+              }}
             >
               Logout
             </Button>
